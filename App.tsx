@@ -6,6 +6,8 @@ import { View } from 'react-native'
 import { Session } from '@supabase/supabase-js'
 import { StatusBar } from 'expo-status-bar'
 import colours from './config/Colours'
+import MainTabNavigator from './navigation/MainTabNavigator'
+import { NavigationContainer } from '@react-navigation/native'
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null)
@@ -21,9 +23,11 @@ export default function App() {
   }, [])
 
   return (
-    <View style={{ flex: 1 }}>
-      <StatusBar style={colours.theme ? "light" : "dark"} backgroundColor={colours.background[colours.theme]} />
-      {session && session.user ? <Account key={session.user.id} session={session} /> : <Auth />}
-    </View>
+    <NavigationContainer>
+      <View style={{ flex: 1 }}>
+        <StatusBar style={colours.theme ? "light" : "dark"} backgroundColor={colours.background[colours.theme]} />
+        {session && session.user ? <MainTabNavigator key={session.user.id} session={session} /> : <Auth />}
+      </View>
+    </NavigationContainer>
   )
 }

@@ -1,4 +1,4 @@
-theme = 0;
+var theme = 1;
 
 export default {
   background: ["white", "#111"],
