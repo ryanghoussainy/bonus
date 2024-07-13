@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './lib/supabase'
+import { supabase } from './src/lib/supabase'
 import Auth from './src/Auth'
 import Account from './src/Account'
 import { View } from 'react-native'
 import { Session } from '@supabase/supabase-js'
 import { StatusBar } from 'expo-status-bar'
-import colours from './config/Colours'
-import MainTabNavigator from './navigation/MainTabNavigator'
+import colours from './src/config/Colours'
+import MainTabNavigator from './src/navigation/MainTabNavigator'
 import { NavigationContainer } from '@react-navigation/native'
 
 export default function App() {

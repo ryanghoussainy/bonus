@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
-import NotImplemented from "../src/NotImplemented";
-import HomeScreen from "../src/HomeScreen";
+import NotImplemented from "../NotImplemented";
+import HomeScreen from "../HomeScreen";
 import colours from "../config/Colours";
 import { Session } from "@supabase/supabase-js";
-import Account from "../src/Account";
+import Account from "../Account";
 
 const Tab = createBottomTabNavigator();
 

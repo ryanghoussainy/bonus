@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
-import colours from '../config/Colours';
+import colours from './config/Colours';
 
 export default function NotImplemented() {
  return (
