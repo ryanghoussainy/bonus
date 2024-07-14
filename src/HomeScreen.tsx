@@ -1,24 +1,28 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
+import { useState, useEffect } from 'react';
+import { Deal_t, getDeals } from './operations/Deal';
+import Deal from './components/Deal';
 import colours from './config/Colours';
 
 export default function HomeScreen() {
- return (
-   <View style={styles.container}>
-     <Text style={styles.text}>Home Screen</Text>
-   </View>
- )
+  const [deals, setDeals] = useState<Deal_t[]>([]);
+
+  useEffect(() => {
+    getDeals(setDeals);
+  }, [])
+
+  return (
+    <FlatList
+      data={deals}
+      style={styles.container}
+      renderItem={({ item }) => <Deal deal={item}/>}
+    />
+  )
 }
 
 const styles = StyleSheet.create({
    container: {
-       flex: 1,
-       alignItems: "center",
-       justifyContent: "center",
        backgroundColor: colours.background[colours.theme],
-   },
-   text: {
-       fontSize: 18,
-       fontWeight: "500",
-       color: colours.text[colours.theme],
+       marginTop: 30,
    },
 })
