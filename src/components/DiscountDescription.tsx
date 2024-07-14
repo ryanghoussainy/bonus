@@ -18,7 +18,7 @@ export default function getDiscountDescription(deal: Deal_t) {
           <Text style={[styles.discountText, styles.left]}>
             - {getWeekdays(deal.days) + "\n"}
             - {formatTime(deal.start_time) + " to " + formatTime(deal.end_time) + "\n"}
-            - until {formatDate(deal.end_date)}
+            {deal.end_date == null ? "" : `- valid until ${formatDate(deal.end_date)}`}
           </Text>
         </View>
       )
@@ -32,7 +32,7 @@ export default function getDiscountDescription(deal: Deal_t) {
           <Text style={[styles.discountText, styles.left]}>
             - {getWeekdays(deal.days) + "\n"}
             - {formatTime(deal.start_time) + " to " + formatTime(deal.end_time) + "\n"}
-            - until {formatDate(deal.end_date)}
+            {deal.end_date == null ? "" : `- valid until ${formatDate(deal.end_date)}`}
           </Text>
         </View>
       )
