@@ -1,19 +1,25 @@
 import { Text, Pressable, StyleSheet, View } from "react-native"
+import { useNavigation } from "@react-navigation/native"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import colours from "../config/Colours"
 import { Deal_t } from "../operations/Deal";
 import getDiscountDescription from "./DiscountDescription";
+import { RootStackParamList } from "../navigation/StackNavigator";
 
+type DealScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Deal">;
 
 const Deal = ({ deal }: { deal: Deal_t }) => {
-    return (
-        <Pressable onPress={() => console.log(deal.name)} style={styles.container}>
-            <View style={styles.content}>
-                <Text style={styles.name}>{deal.name}</Text>
+  const navigation = useNavigation<DealScreenNavigationProp>();
 
-                <View style={styles.discount}>{getDiscountDescription(deal)}</View>
-            </View>
-        </Pressable>
-    )
+  return (
+      <Pressable onPress={() => navigation.navigate("Deal", { deal: deal })} style={styles.container}>
+          <View style={styles.content}>
+              <Text style={styles.name}>{deal.name}</Text>
+
+              <View style={styles.discount}>{getDiscountDescription(deal)}</View>
+          </View>
+      </Pressable>
+  )
 }
 
 export default Deal;

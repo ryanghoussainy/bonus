@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './src/lib/supabase'
-import Auth from './src/Auth'
-import Account from './src/Account'
+import Auth from './src/screens/Auth'
 import { View } from 'react-native'
 import { Session } from '@supabase/supabase-js'
 import { StatusBar } from 'expo-status-bar'
 import colours from './src/config/Colours'
-import MainTabNavigator from './src/navigation/MainTabNavigator'
-import { NavigationContainer } from '@react-navigation/native'
+import Navigator from './src/navigation/StackNavigator'
 
 export default function App() {
   const [session, setSession] = useState<Session | null>(null)
@@ -23,11 +21,9 @@ export default function App() {
   }, [])
 
   return (
-    <NavigationContainer>
-      <View style={{ flex: 1 }}>
-        <StatusBar style={colours.theme ? "light" : "dark"} backgroundColor={colours.background[colours.theme]} />
-        {session && session.user ? <MainTabNavigator key={session.user.id} session={session} /> : <Auth />}
-      </View>
-    </NavigationContainer>
+    <View style={{ flex: 1 }}>
+      <StatusBar style={colours.theme ? "light" : "dark"} backgroundColor={colours.background[colours.theme]} />
+      {session && session.user ? <Navigator key={session.user.id} session={session} /> : <Auth />}
+    </View>
   )
 }

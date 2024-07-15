@@ -1,11 +1,10 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
-import NotImplemented from "../NotImplemented";
-import HomeScreen from "../HomeScreen";
+import HomeScreen from "../screens/HomeScreen";
 import colours from "../config/Colours";
 import { Session } from "@supabase/supabase-js";
-import Account from "../Account";
+import Account from "../screens/Account";
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +36,7 @@ export default function MainTabNavigator({ session }: { session: Session }) {
         })}
       >
         {() => <Account session={session} />}
-    </Tab.Screen>
+      </Tab.Screen>
     </Tab.Navigator>
   );
 };

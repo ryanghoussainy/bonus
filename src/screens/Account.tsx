@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
-import { supabase } from './lib/supabase'
+import { supabase } from '../lib/supabase'
 import { StyleSheet, View } from 'react-native'
 import { Button, Input, Text } from '@rneui/themed'
 import { Session } from '@supabase/supabase-js'
-import { getUser, updateUser } from './operations/User'
-import colours from "./config/Colours"
+import { getUser, updateUser } from '../operations/User'
+import { useNavigation } from '@react-navigation/native'
+import colours from "../config/Colours"
 
 export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
@@ -70,7 +71,6 @@ export default function Account({ session }: { session: Session }) {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 30,
     padding: 12,
     backgroundColor: colours.background[colours.theme],
     flex: 1,
