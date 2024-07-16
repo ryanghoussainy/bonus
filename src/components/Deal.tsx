@@ -1,10 +1,11 @@
 import { Text, Pressable, StyleSheet, View } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import colours from "../config/Colours"
+import Colours from "../config/Colours"
 import { Deal_t } from "../operations/Deal";
 import getDiscountDescription from "./DiscountDescription";
 import { RootStackParamList } from "../navigation/StackNavigator";
+import Fonts from "../config/Fonts";
 
 type DealScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Deal">;
 
@@ -30,11 +31,11 @@ const styles = StyleSheet.create({
       height: "auto",
       marginHorizontal: 30,
       marginVertical: 10,
-      backgroundColor: colours.dealItem[colours.theme],
+      backgroundColor: Colours.dealItem[Colours.theme],
       borderRadius: 20,
   
       // Shadow
-      shadowColor: colours.text[colours.theme],
+      shadowColor: Colours.text[Colours.theme],
       shadowOffset: {
         width: 0,
         height: 1,
@@ -62,11 +63,12 @@ const styles = StyleSheet.create({
     },
     name: {
       alignSelf: "center",
-      fontSize: 27,
+      fontSize: 29,
       fontWeight: "bold",
       marginVertical: 5,
       marginHorizontal: 15,
       textAlign: "center",
-      color: colours.text[colours.theme],
+      color: Colours.text[Colours.theme],
+      fontFamily: Fonts.condensed,
     },
 })

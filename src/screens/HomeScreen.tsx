@@ -1,12 +1,12 @@
-import { View, StyleSheet, FlatList } from 'react-native';
+import { StyleSheet, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
 import { Deal_t, getDeals } from '../operations/Deal';
 import Deal from '../components/Deal';
-import colours from '../config/Colours';
+import Colours from '../config/Colours';
 
 export default function HomeScreen() {
   const [deals, setDeals] = useState<Deal_t[]>([]);
-
+  
   useEffect(() => {
     getDeals(setDeals);
   }, [])
@@ -22,6 +22,6 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
    container: {
-       backgroundColor: colours.background[colours.theme],
+       backgroundColor: Colours.background[Colours.theme],
    },
 })

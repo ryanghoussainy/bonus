@@ -4,7 +4,7 @@ import Auth from './src/screens/Auth'
 import { View } from 'react-native'
 import { Session } from '@supabase/supabase-js'
 import { StatusBar } from 'expo-status-bar'
-import colours from './src/config/Colours'
+import Colours from './src/config/Colours'
 import Navigator from './src/navigation/StackNavigator'
 
 export default function App() {
@@ -22,7 +22,7 @@ export default function App() {
 
   return (
     <View style={{ flex: 1 }}>
-      <StatusBar style={colours.theme ? "light" : "dark"} backgroundColor={colours.background[colours.theme]} />
+      <StatusBar style={Colours.theme ? "light" : "dark"} backgroundColor={Colours.background[Colours.theme]} />
       {session && session.user ? <Navigator key={session.user.id} session={session} /> : <Auth />}
     </View>
   )

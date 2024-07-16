@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import HomeScreen from "../screens/HomeScreen";
-import colours from "../config/Colours";
+import Colours from "../config/Colours";
 import { Session } from "@supabase/supabase-js";
 import Account from "../screens/Account";
 
@@ -20,7 +20,7 @@ export default function MainTabNavigator({ session }: { session: Session }) {
           ),
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarActiveTintColor: colours.green[colours.theme],
+          tabBarActiveTintColor: Colours.green[Colours.theme],
         })}
       />
 
@@ -32,7 +32,7 @@ export default function MainTabNavigator({ session }: { session: Session }) {
           ),
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarActiveTintColor: colours.green[colours.theme],
+          tabBarActiveTintColor: Colours.green[Colours.theme],
         })}
       >
         {() => <Account session={session} />}
@@ -43,7 +43,7 @@ export default function MainTabNavigator({ session }: { session: Session }) {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: colours.dealItem[colours.theme],
+    backgroundColor: Colours.dealItem[Colours.theme],
     borderTopWidth: 0,
   },
 });

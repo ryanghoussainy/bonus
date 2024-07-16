@@ -4,8 +4,8 @@ import { StyleSheet, View } from 'react-native'
 import { Button, Input, Text } from '@rneui/themed'
 import { Session } from '@supabase/supabase-js'
 import { getUser, updateUser } from '../operations/User'
-import { useNavigation } from '@react-navigation/native'
-import colours from "../config/Colours"
+import Colours from "../config/Colours"
+import Fonts from '../config/Fonts'
 
 export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
@@ -45,7 +45,7 @@ export default function Account({ session }: { session: Session }) {
           title={loading ? 'Loading ...' : 'Update'}
           onPress={() => updateUser(session, name, setLoading)}
           disabled={loading}
-          color={colours.green[colours.theme]}
+          color={Colours.green[Colours.theme]}
         />
       </View>
 
@@ -60,7 +60,7 @@ export default function Account({ session }: { session: Session }) {
           <Button 
             title="Sign Out" 
             onPress={() => supabase.auth.signOut()} 
-            color={colours.red[colours.theme]}
+            color={Colours.red[Colours.theme]}
           />
         </View>
       </View>
@@ -72,13 +72,13 @@ export default function Account({ session }: { session: Session }) {
 const styles = StyleSheet.create({
   container: {
     padding: 12,
-    backgroundColor: colours.background[colours.theme],
+    backgroundColor: Colours.background[Colours.theme],
     flex: 1,
   },
   signOutSection: {
     flex: 1,
     borderTopWidth: 1,
-    borderTopColor: colours.grey[colours.theme],
+    borderTopColor: Colours.grey[Colours.theme],
     marginTop: 15,
     paddingTop: 15,
   },
@@ -88,20 +88,22 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   input: {
-    color: colours.text[colours.theme]
+    color: Colours.text[Colours.theme],
+    fontFamily: Fonts.condensed,
   },
   mt20: {
     marginTop: 20,
   },
   h2: {
-    fontSize: 20,
+    fontSize: 23,
     fontWeight: 'bold',
-    color: colours.text[colours.theme],
+    color: Colours.text[Colours.theme],
     alignSelf: "center",
+    fontFamily: Fonts.condensed,
   },
   miniDivider: {
     borderBottomWidth: 1,
-    borderBottomColor: colours.green[colours.theme],
+    borderBottomColor: Colours.green[Colours.theme],
     width: "20%",
     alignSelf: "center",
     marginBottom: 20,

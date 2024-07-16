@@ -1,8 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import { Deal_t } from "../operations/Deal";
-import colours from "../config/Colours";
+import Colours from "../config/Colours";
 import { getWeekdays } from "../config/Weekdays";
 import { formatTime, formatDate } from "../config/FormatDateTime";
+import Fonts from "../config/Fonts";
 
 
 export default function getDiscountDescription(deal: Deal_t) {
@@ -52,16 +53,18 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
   },
   discountAmount: {
-    color: colours.gold[colours.theme],
+    color: Colours.gold[Colours.theme],
+    fontSize: 40,
   },
   discountText: {
     fontSize: 20,
     fontWeight: "bold",
     textAlign: "center",
-    color: colours.text[colours.theme],
+    color: Colours.text[Colours.theme],
+    fontFamily: Fonts.condensed,
   },
   discountTime: {
-    color: colours.green[colours.theme],
+    color: Colours.green[Colours.theme],
   },
   discountView: {
     marginBottom: 10,
