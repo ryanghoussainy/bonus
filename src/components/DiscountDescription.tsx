@@ -9,51 +9,68 @@ export default function getDiscountDescription(deal: Deal_t) {
   switch (deal.type) {
     case 0: // Classic bonus point type discount
       return (
-        <View>
-          <Text style={styles.discountText}>
-            <Text style={styles.discountAmount}>{deal.percentage}%</Text>
-            {" off\nwhen you come "}
-            <Text style={styles.discountTime}>{deal.max_pts} times</Text>
-          </Text>
-          <Text style={[styles.discountText, styles.left]}>
+        <View style={styles.container}>
+          <View style={styles.discountView}>
+            <Text style={styles.discountText}>
+              <Text style={styles.discountAmount}>{deal.percentage}%</Text>
+              {" off\nwhen you come "}
+              <Text style={styles.discountTime}>{deal.max_pts} times</Text>
+            </Text>
+          </View>
+          <View style={styles.discountDetailsView}>
+            <Text style={[styles.discountText, styles.left]}>
             - {getWeekdays(deal.days) + "\n"}
-            - {formatTime(deal.start_time) + " to " + formatTime(deal.end_time) + "\n"}
-            {deal.end_date == null ? "" : `- valid until ${formatDate(deal.end_date)}`}
-          </Text>
+            - {formatTime(deal.start_time) + " to " + formatTime(deal.end_time)}
+            {deal.end_date == null ? "" : `\n- valid until ${formatDate(deal.end_date)}`}
+            </Text>
+          </View>
         </View>
       )
     case 1: // Limited-time discount
       return (
-        <View>
-          <Text style={styles.discountText}>
-            <Text style={styles.discountAmount}>{deal.percentage}%</Text>
-            {" off"}
-          </Text>
-          <Text style={[styles.discountText, styles.left]}>
-            - {getWeekdays(deal.days) + "\n"}
-            - {formatTime(deal.start_time) + " to " + formatTime(deal.end_time) + "\n"}
-            {deal.end_date == null ? "" : `- valid until ${formatDate(deal.end_date)}`}
-          </Text>
+        <View style={styles.container}>
+          <View style={styles.discountView}>
+            <Text style={styles.discountText}>
+              <Text style={styles.discountAmount}>{deal.percentage}%</Text>
+              {" off"}
+            </Text>
+          </View>
+          <View style={styles.discountDetailsView}>
+            <Text style={[styles.discountText, styles.left]}>
+              - {getWeekdays(deal.days) + "\n"}
+              - {formatTime(deal.start_time) + " to " + formatTime(deal.end_time)}
+              {deal.end_date == null ? "" : `\n- valid until ${formatDate(deal.end_date)}`}
+            </Text>
+          </View>
         </View>
       )
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    alignSelf: "stretch",
+  },
   discountAmount: {
     color: colours.gold[colours.theme],
   },
   discountText: {
     fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 10,
-    marginHorizontal: 20,
     textAlign: "center",
-    paddingTop: 15,
     color: colours.text[colours.theme],
   },
   discountTime: {
     color: colours.green[colours.theme],
+  },
+  discountView: {
+    marginBottom: 10,
+    padding: 15,
+  },
+  discountDetailsView: {
+    marginBottom: 10,
+    paddingTop: 15,
+    marginLeft: 10,
   },
   left: {
     textAlign: "left",
