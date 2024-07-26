@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase'
 import { StyleSheet, View } from 'react-native'
 import { Button, Input, Text } from '@rneui/themed'
 import { Session } from '@supabase/supabase-js'
-import { getUser, updateUser } from '../operations/User'
+import { getUser, updateUser, deleteUser } from '../operations/User'
 import Colours from "../config/Colours"
 import Fonts from '../config/Fonts'
 
@@ -65,6 +65,22 @@ export default function Account({ session }: { session: Session }) {
         </View>
       </View>
 
+      <View style={styles.signOutSection}>
+        <Text style={styles.h2}>
+          Delete Account
+        </Text>
+
+        <View style={styles.miniDivider}></View>
+
+        <View style={styles.verticallySpaced}>
+          <Button 
+            title="Delete Account"  
+            onPress={() => deleteUser(session)}
+            color={Colours.red[Colours.theme]}
+          />
+        </View>
+      </View>
+
     </View>
   )
 }
@@ -76,7 +92,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   signOutSection: {
-    flex: 1,
     borderTopWidth: 1,
     borderTopColor: Colours.grey[Colours.theme],
     marginTop: 15,
