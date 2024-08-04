@@ -4,12 +4,12 @@ import { StyleSheet } from "react-native";
 import { Session } from "@supabase/supabase-js";
 import Colours from "../config/Colours";
 import MainTabNavigator from "./MainTabNavigator";
-import { Deal_t } from "../operations/Deal";
+import { Deal_t } from "../operations/UserDeal";
 import DealScreen from "../screens/DealScreen";
 
 export type RootStackParamList = {
-    "BONUS Deals": { session: Session };
-    "Deal": { deal: Deal_t };
+  "BONUS Deals": { session: Session };
+  "Deal": { deal: Deal_t };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -19,13 +19,13 @@ const Navigator = ({ session }: { session: Session }) => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-            headerStyle: styles.navigation,
-            headerTitleStyle: styles.title,
-            headerTintColor: Colours.text[Colours.theme],
+          headerStyle: styles.navigation,
+          headerTitleStyle: styles.title,
+          headerTintColor: Colours.text[Colours.theme],
         }}
       >
         <Stack.Screen name="BONUS Deals">
-            {() => <MainTabNavigator key={session.user.id} session={session} />}
+          {() => <MainTabNavigator key={session.user.id} session={session} />}
         </Stack.Screen>
         <Stack.Screen name="Deal" component={DealScreen} />
       </Stack.Navigator>

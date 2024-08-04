@@ -13,7 +13,6 @@ export default function MainTabNavigator({ session }: { session: Session }) {
     <Tab.Navigator screenOptions={{ tabBarStyle: styles.tabBar }}>
       <Tab.Screen
         name="Home"
-        component={HomeScreen}
         options={() => ({
           tabBarIcon: ({ color }) => (
             <Ionicons name="home" size={30} color={color} />
@@ -21,8 +20,9 @@ export default function MainTabNavigator({ session }: { session: Session }) {
           headerShown: false,
           tabBarShowLabel: false,
           tabBarActiveTintColor: Colours.green[Colours.theme],
-        })}
-      />
+        })}>
+        {() => <HomeScreen session={session} />}
+      </Tab.Screen>
 
       <Tab.Screen
         name="Settings"

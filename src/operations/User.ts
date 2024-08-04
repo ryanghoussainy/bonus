@@ -64,8 +64,7 @@ Remove the user completely.
 */
 export async function deleteUser(
   session: Session,
-  setLoading: (loading: boolean) => void,
-  setIsModalOpen: (isOpen: boolean) => void
+  setLoading: (loading: boolean) => void
 ) {
   if (!session?.user) {
     throw new Error('No user on the session!')
@@ -80,8 +79,61 @@ export async function deleteUser(
     console.log(error)
   } finally {
     setLoading(false)
-    setIsModalOpen(false)
     // Force sign out after deleting the account
     await supabase.auth.signOut()
   }
+}
+
+export async function createUser(
+  email: string,
+  password: string,
+  setLoading: (loading: boolean) => void
+) {
+  // Sign up with email and password
+  setLoading(true)
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.signUp({
+    email: email,
+    password: password,
+  })
+
+  if (error) {
+    Alert.alert(error.message)
+    setLoading(false)
+    return
+  }
+  if (!session) {
+    Alert.alert('Please check your inbox for email verification!')
+    setLoading(false)
+    return
+  }
+
+  // A profile is automatically created for the user via a trigger in the backend
+  // Get the user id
+  const user_id = session.user.id
+  // Fetch all deals
+  const { data: deals, error: dealsError } = await supabase.from('deals').select('id')
+  if (dealsError) {
+    Alert.alert(dealsError.message)
+    setLoading(false)
+    return
+  }
+  // For each deal, create a new row in the user_deals table
+  for (const deal of deals) {
+    const { error } = await supabase.from('user_deals').upsert({
+      user_id: user_id,
+      deal_id: deal.id,
+      points: 0,
+      redeemed_days: [],
+    })
+    if (error) {
+      Alert.alert(error.message)
+      setLoading(false)
+      return
+    }
+  }
+
+  setLoading(false)
 }

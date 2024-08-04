@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Deal_t } from "../operations/Deal";
+import { Deal_t } from "../operations/UserDeal";
 import Colours from "../config/Colours";
 import { getWeekdays } from "../config/Weekdays";
 import { formatTime, formatDate } from "../config/FormatDateTime";
@@ -20,9 +20,9 @@ export default function getDiscountDescription(deal: Deal_t) {
           </View>
           <View style={styles.discountDetailsView}>
             <Text style={[styles.discountText, styles.left]}>
-            - {getWeekdays(deal.days) + "\n"}
-            - {formatTime(deal.start_time) + " to " + formatTime(deal.end_time)}
-            {deal.end_date == null ? "" : `\n- valid until ${formatDate(deal.end_date)}`}
+              - {getWeekdays(deal.days) + "\n"}
+              - {formatTime(deal.start_time) + " to " + formatTime(deal.end_time)}
+              {deal.end_date == null ? "" : `\n- valid until ${formatDate(deal.end_date)}`}
             </Text>
           </View>
         </View>

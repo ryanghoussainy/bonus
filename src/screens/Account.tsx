@@ -9,8 +9,7 @@ import Fonts from '../config/Fonts'
 
 export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
-  const [name, setName] = useState('')
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [name, setName] = useState('')  
   const [deleteUserWarning, setDeleteUserWarning] = useState(false)
   const [deleteUserEmail, setDeleteUserEmail] = useState('')
   const [enableDeleteUser, setEnableDeleteUser] = useState(false)
@@ -116,7 +115,7 @@ export default function Account({ session }: { session: Session }) {
             />
             <Button 
               title="Delete Account" 
-              onPress={() => deleteUser(session, setLoading, setIsModalOpen)} 
+              onPress={() => deleteUser(session, setLoading)} 
               color={Colours.red[Colours.theme]}
               disabled={loading || !enableDeleteUser}
             />
