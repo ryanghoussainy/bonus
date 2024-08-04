@@ -27,7 +27,7 @@ serve(async (req: Request) => {
     )
     // Now we can get the session or user object
     const {
-      data: { user },
+      data: { _user },
     } = await supabaseClient.auth.getUser()
     // And we can run queries in the context of our authenticated user
     const { data: profiles, error: userError } = await supabaseClient.from('profiles').select('id')
