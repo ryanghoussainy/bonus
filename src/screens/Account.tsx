@@ -47,6 +47,7 @@ export default function Account({ session }: { session: Session }) {
           onChangeText={(text) => setName(text)}
           style={styles.input}
           disabled={loading || deleteUserWarning}
+          rightIcon={{ type: 'font-awesome', name: 'pencil', color: Colours.text[Colours.theme] }}
         />
       </View>
 
@@ -93,8 +94,8 @@ export default function Account({ session }: { session: Session }) {
         </View>
       </View>
 
-      {/* Delete User Warning */}
       {
+        /* Delete User Warning */
         deleteUserWarning ? 
         <View style={styles.darkBackground}>
           <View style={styles.deleteUserWarning}>
