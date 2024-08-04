@@ -5,6 +5,7 @@ import Colours from '../config/Colours'
 import getDiscountDescription from '../components/DiscountDescription';
 import { RootStackParamList } from '../navigation/StackNavigator';
 import Fonts from '../config/Fonts';
+import QRCode from 'react-native-qrcode-svg';
 
 type DealScreenRouteProp = RouteProp<RootStackParamList, "Deal">;
 
@@ -28,9 +29,10 @@ const DealScreen = () => {
 
                 {/* Redeem */}
                 <View style={styles.redeem}>
-                    <Text>
-                        Maybe a QR code??
-                    </Text>
+                    <QRCode
+                        value="hello"
+                        size={230}
+                    />
                 </View>
 
                 {/* Description */}
