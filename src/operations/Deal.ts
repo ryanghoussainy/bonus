@@ -16,7 +16,7 @@ export type Deal_t = {
 
 export async function getDeals(setDeals: (deals: Deal_t[]) => void) {
     try {
-        let { data: deals, error } = await supabase
+        const { data: deals, error } = await supabase
             .from('deals')
             .select('name, description, location, type, percentage, start_time, end_time, end_date, days, max_pts');
 

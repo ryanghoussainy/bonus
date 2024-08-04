@@ -11,7 +11,7 @@ export async function getUser(session: Session, setLoading: (loading: boolean) =
     if (!session?.user) throw new Error('No user on the session!')
 
     const { data, error, status } = await supabase
-      .from('users')
+      .from('profiles')
       .select(`name`)
       .eq('id', session?.user.id)
       .single()
@@ -45,7 +45,7 @@ export async function updateUser(session: Session, name: string, setLoading: (lo
       updated_at: new Date(),
     }
 
-    const { error } = await supabase.from('users').upsert(updates)
+    const { error } = await supabase.from('profiles').upsert(updates)
 
     if (error) {
       throw error
@@ -62,26 +62,43 @@ export async function updateUser(session: Session, name: string, setLoading: (lo
 /*
 Remove the user completely.
 */
-export async function deleteUser(session: Session) {
-  try {
-    if (!session?.user) throw new Error('No user on the session!')
-
-    {
-      let { error } = await supabase.from('users').delete().eq('id', session?.user.id)
-      if (error) {
-        throw error
-      }
-    }
-    {
-      let { error } = await supabase.auth.admin.deleteUser(session?.user.id, true)
-      if (error) {
-        throw error
-      }
-    }
-    
-  } catch (error) {
-    if (error instanceof Error) {
-      Alert.alert(error.message)
-    }
+export async function deleteUser(session: Session, setLoading: (loading: boolean) => void, setIsModalOpen: (isOpen: boolean) => void) {
+  if (!session?.user) {
+    throw new Error('No user on the session!')
   }
+
+  try {
+    // Delete the auth user from the database
+    await supabase.functions.invoke('user-self-deletion')
+    alert('Account deleted successfully!')
+  } catch (error) {
+    alert('Error deleting the account!')
+    console.log(error)
+  } finally {
+    setLoading(false)
+    setIsModalOpen(false)
+    // Force sign out after deleting the account
+    await supabase.auth.signOut()
+  }
+
+  // try {
+  //   // Delete the user from the 'profiles' table
+  //   {
+  //     const { error } = await supabase.from('profiles').delete().eq('id', session?.user.id)
+  //     if (error) {
+  //       throw error
+  //     }
+  //   }
+  //   {
+  //     const { error } = await supabase.auth.admin.deleteUser(session?.user.id, true)
+  //     if (error) {
+  //       throw error
+  //     }
+  //   }
+    
+  // } catch (error) {
+  //   if (error instanceof Error) {
+  //     Alert.alert(error.message)
+  //   }
+  // }
 }

@@ -10,6 +10,7 @@ import Fonts from '../config/Fonts'
 export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
   const [name, setName] = useState('')
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     if (session) getUser(session, setLoading, setName)
@@ -75,7 +76,7 @@ export default function Account({ session }: { session: Session }) {
         <View style={styles.verticallySpaced}>
           <Button 
             title="Delete Account"  
-            onPress={() => deleteUser(session)}
+            onPress={() => deleteUser(session, setLoading, setIsModalOpen)}
             color={Colours.red[Colours.theme]}
           />
         </View>

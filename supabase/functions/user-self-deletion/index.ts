@@ -30,15 +30,9 @@ serve(async (req: Request) => {
       data: { user },
     } = await supabaseClient.auth.getUser()
     // And we can run queries in the context of our authenticated user
-    const { data: profiles, error: userError } = await supabaseClient.from('profiles').select('id, avatar_url')
+    const { data: profiles, error: userError } = await supabaseClient.from('profiles').select('id')
     if (userError) throw userError
     const user_id = profiles[0].id
-    const { data: list_of_files, error: storageError } = await supabaseClient.storage.from('avatars').list()
-    if (storageError) throw storageError
-    const file_urls = []
-    for (let i = 0; i < list_of_files.length; i++) {
-      file_urls.push(list_of_files[i].name)
-    }
     // Create the admin client to delete files & user with the Admin API.
     const supabaseAdmin = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',

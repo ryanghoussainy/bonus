@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Alert, StyleSheet, View, AppState } from 'react-native'
 import { supabase } from '../lib/supabase'
 import { Button, Input } from '@rneui/themed'
@@ -52,7 +52,7 @@ export default function Auth() {
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Input
           label="Email"
-          leftIcon={{ type: 'font-awesome', name: 'envelope' }}
+          leftIcon={{ type: 'font-awesome', name: 'envelope', color: Colours.text[Colours.theme] }}
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder="email@address.com"
@@ -63,7 +63,7 @@ export default function Auth() {
       <View style={styles.verticallySpaced}>
         <Input
           label="Password"
-          leftIcon={{ type: 'font-awesome', name: 'lock' }}
+          leftIcon={{ type: 'font-awesome', name: 'lock', color: Colours.text[Colours.theme], size: 30 }}
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={true}
@@ -74,7 +74,7 @@ export default function Auth() {
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
         <Button 
-          title="Sign in" 
+          title="Log in" 
           disabled={loading} 
           onPress={() => signInWithEmail()} 
           buttonStyle={styles.button}
