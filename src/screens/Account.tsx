@@ -11,10 +11,18 @@ export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
   const [name, setName] = useState('')
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [deleteUserWarning, setDeleteUserWarning] = useState(false)
+  const [deleteUserEmail, setDeleteUserEmail] = useState('')
+  const [enableDeleteUser, setEnableDeleteUser] = useState(false)
 
   useEffect(() => {
     if (session) getUser(session, setLoading, setName)
   }, [session])
+
+  useEffect(() => {
+    if (deleteUserEmail === session?.user?.email) setEnableDeleteUser(true)
+    else setEnableDeleteUser(false)
+  })
 
   return (
     <View style={styles.container}>
@@ -37,7 +45,8 @@ export default function Account({ session }: { session: Session }) {
           label="First Name" 
           value={name || ''} 
           onChangeText={(text) => setName(text)}
-          style={styles.input} 
+          style={styles.input}
+          disabled={loading || deleteUserWarning}
         />
       </View>
 
@@ -45,8 +54,8 @@ export default function Account({ session }: { session: Session }) {
         <Button
           title={loading ? 'Loading ...' : 'Update'}
           onPress={() => updateUser(session, name, setLoading)}
-          disabled={loading}
           color={Colours.green[Colours.theme]}
+          disabled={loading}
         />
       </View>
 
@@ -62,6 +71,7 @@ export default function Account({ session }: { session: Session }) {
             title="Sign Out" 
             onPress={() => supabase.auth.signOut()} 
             color={Colours.red[Colours.theme]}
+            disabled={loading}
           />
         </View>
       </View>
@@ -76,12 +86,43 @@ export default function Account({ session }: { session: Session }) {
         <View style={styles.verticallySpaced}>
           <Button 
             title="Delete Account"  
-            onPress={() => deleteUser(session, setLoading, setIsModalOpen)}
+            onPress={() => setDeleteUserWarning(true)}
             color={Colours.red[Colours.theme]}
+            disabled={loading}
           />
         </View>
       </View>
 
+      {/* Delete User Warning */}
+      {
+        deleteUserWarning ? 
+        <View style={styles.darkBackground}>
+          <View style={styles.deleteUserWarning}>
+            <Text style={styles.h2}>WARNING!!</Text>
+            <Text style={styles.input}>
+              You are deleting your account. If you are sure this is what you want, please enter your email.
+            </Text>
+            <Input
+              label="Email"
+              style={styles.input}
+              onChangeText={(text) => setDeleteUserEmail(text)}
+            />
+            <Button 
+              title="Cancel" 
+              onPress={() => setDeleteUserWarning(false)} 
+              color={Colours.green[Colours.theme]}
+              disabled={loading}
+            />
+            <Button 
+              title="Delete Account" 
+              onPress={() => deleteUser(session, setLoading, setIsModalOpen)} 
+              color={Colours.red[Colours.theme]}
+              disabled={loading || !enableDeleteUser}
+            />
+          </View>
+        </View>
+        : null
+      }
     </View>
   )
 }
@@ -124,5 +165,23 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 20,
     marginTop: 2,
+  },
+  darkBackground: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.6)",
+    zIndex: 100,
+  },
+  deleteUserWarning: {
+    position: "absolute",
+    alignSelf: "center",
+    top: "30%",
+    backgroundColor: Colours.dealItem[Colours.theme],
+    display: "flex",
+    width: "85%",
+    padding: 10,
   }
 })

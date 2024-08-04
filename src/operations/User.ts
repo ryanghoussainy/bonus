@@ -62,7 +62,11 @@ export async function updateUser(session: Session, name: string, setLoading: (lo
 /*
 Remove the user completely.
 */
-export async function deleteUser(session: Session, setLoading: (loading: boolean) => void, setIsModalOpen: (isOpen: boolean) => void) {
+export async function deleteUser(
+  session: Session,
+  setLoading: (loading: boolean) => void,
+  setIsModalOpen: (isOpen: boolean) => void
+) {
   if (!session?.user) {
     throw new Error('No user on the session!')
   }
@@ -80,25 +84,4 @@ export async function deleteUser(session: Session, setLoading: (loading: boolean
     // Force sign out after deleting the account
     await supabase.auth.signOut()
   }
-
-  // try {
-  //   // Delete the user from the 'profiles' table
-  //   {
-  //     const { error } = await supabase.from('profiles').delete().eq('id', session?.user.id)
-  //     if (error) {
-  //       throw error
-  //     }
-  //   }
-  //   {
-  //     const { error } = await supabase.auth.admin.deleteUser(session?.user.id, true)
-  //     if (error) {
-  //       throw error
-  //     }
-  //   }
-    
-  // } catch (error) {
-  //   if (error instanceof Error) {
-  //     Alert.alert(error.message)
-  //   }
-  // }
 }

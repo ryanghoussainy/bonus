@@ -58,6 +58,7 @@ export default function Auth() {
           placeholder="email@address.com"
           autoCapitalize={'none'}
           style={styles.input}
+          disabled={loading}
         />
       </View>
       <View style={styles.verticallySpaced}>
@@ -70,6 +71,7 @@ export default function Auth() {
           placeholder="Password"
           autoCapitalize={'none'}
           style={styles.input}
+          disabled={loading}
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
