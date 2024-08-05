@@ -30,7 +30,7 @@ const DealScreen = () => {
                 {/* Redeem */}
                 <View style={styles.redeem}>
                     <QRCode
-                        value="hello"
+                        value={deal.user_deal_id}
                         size={230}
                     />
                 </View>

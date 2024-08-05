@@ -13,6 +13,7 @@ export type Deal_t = {
     end_date: string;
     days: string;
     max_pts?: number;
+    user_deal_id: string;
 }
 
 export async function getUserDeals(session: Session, setDeals: (deals: Deal_t[]) => void) {
@@ -24,7 +25,7 @@ export async function getUserDeals(session: Session, setDeals: (deals: Deal_t[])
         // Get user_deals for this user
         const { data: user_deals, error } = await supabase
             .from('user_deals')
-            .select('user_id, deal_id, points')
+            .select('id, user_id, deal_id, points')
             .eq('user_id', user_id);
 
         if (error) throw error;
@@ -41,7 +42,7 @@ export async function getUserDeals(session: Session, setDeals: (deals: Deal_t[])
             if (error) throw error;
 
             if (deal) {
-                deals.push(deal);
+                deals.push({ ...deal, user_deal_id: user_deal.id });
             }
         }
 
