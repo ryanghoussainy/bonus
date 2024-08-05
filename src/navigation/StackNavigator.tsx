@@ -4,12 +4,12 @@ import { StyleSheet } from "react-native";
 import { Session } from "@supabase/supabase-js";
 import Colours from "../config/Colours";
 import MainTabNavigator from "./MainTabNavigator";
-import { Deal_t } from "../operations/UserDeal";
+import { UserDeal_t } from "../operations/UserDeal";
 import DealScreen from "../screens/DealScreen";
 
 export type RootStackParamList = {
   "BONUS Deals": { session: Session };
-  "Deal": { deal: Deal_t };
+  "Deal": { deal: UserDeal_t };
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();

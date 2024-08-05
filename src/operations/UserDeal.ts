@@ -2,7 +2,7 @@ import { Session } from '@supabase/supabase-js';
 import { supabase } from '../lib/supabase';
 import { Alert } from 'react-native';
 
-export type Deal_t = {
+export type UserDeal_t = {
     name: string;
     description: string;
     location: string;
@@ -16,7 +16,7 @@ export type Deal_t = {
     user_deal_id: string;
 }
 
-export async function getUserDeals(session: Session, setDeals: (deals: Deal_t[]) => void) {
+export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_t[]) => void) {
     try {
         // Get user_id
         const user_id = session.user?.id;
@@ -31,7 +31,7 @@ export async function getUserDeals(session: Session, setDeals: (deals: Deal_t[])
         if (error) throw error;
 
         // Get deals from these user_deals
-        const deals: Deal_t[] = [];
+        const deals: UserDeal_t[] = [];
         for (const user_deal of user_deals) {
             const { data: deal, error } = await supabase
                 .from('deals')

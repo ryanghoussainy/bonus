@@ -1,12 +1,12 @@
 import { StyleSheet, FlatList } from 'react-native';
 import { useState, useEffect } from 'react';
-import { Deal_t, getUserDeals } from '../operations/UserDeal';
+import { UserDeal_t, getUserDeals } from '../operations/UserDeal';
 import Deal from '../components/Deal';
 import Colours from '../config/Colours';
 import { Session } from '@supabase/supabase-js';
 
 export default function HomeScreen({ session }: { session: Session }) {
-  const [deals, setDeals] = useState<Deal_t[]>([]);
+  const [deals, setDeals] = useState<UserDeal_t[]>([]);
 
   useEffect(() => {
     getUserDeals(session, setDeals);
