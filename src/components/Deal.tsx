@@ -2,14 +2,14 @@ import { Text, Pressable, StyleSheet, View } from "react-native"
 import { useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Colours from "../config/Colours"
-import { Deal_t } from "../operations/UserDeal";
+import { UserDeal_t } from "../operations/UserDeal";
 import getDiscountDescription from "./DiscountDescription";
 import { RootStackParamList } from "../navigation/StackNavigator";
 import Fonts from "../config/Fonts";
 
 type DealScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, "Deal">;
 
-const Deal = ({ deal }: { deal: Deal_t }) => {
+const Deal = ({ deal }: { deal: UserDeal_t }) => {
   const navigation = useNavigation<DealScreenNavigationProp>();
 
   return (
