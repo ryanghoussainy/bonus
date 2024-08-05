@@ -21,7 +21,7 @@ export default function Account({ session }: { session: Session }) {
   useEffect(() => {
     if (deleteUserEmail === session?.user?.email) setEnableDeleteUser(true)
     else setEnableDeleteUser(false)
-  })
+  }, [deleteUserEmail])
 
   return (
     <View style={styles.container}>

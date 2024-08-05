@@ -10,7 +10,7 @@ export default function HomeScreen({ session }: { session: Session }) {
 
   useEffect(() => {
     getUserDeals(session, setDeals);
-  }, [])
+  }, [deals])
 
   return (
     <FlatList
