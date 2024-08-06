@@ -46,6 +46,7 @@ export default function Account({ session }: { session: Session }) {
           onChangeText={(text) => setName(text)}
           style={styles.input}
           disabled={loading || deleteUserWarning}
+          onEndEditing={() => getUser(session, setLoading, setName)}
           rightIcon={{ type: 'font-awesome', name: 'pencil', color: Colours.text[Colours.theme] }}
         />
       </View>
