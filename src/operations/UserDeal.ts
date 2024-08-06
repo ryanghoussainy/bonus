@@ -35,14 +35,39 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
         for (const user_deal of user_deals) {
             const { data: deal, error } = await supabase
                 .from('deals')
-                .select('name, description, location, type, percentage, start_time, end_time, end_date, days, max_pts')
+                .select('description, type, percentage, start_time, end_time, end_date, days, max_pts')
                 .eq('id', user_deal.deal_id)
                 .single();
 
             if (error) throw error;
 
-            if (deal) {
-                deals.push({ ...deal, user_deal_id: user_deal.id });
+            // Get shop_user_id
+            const { data, error: deal_error } = await supabase
+                .from('deals')
+                .select('shop_user_id')
+                .eq('id', user_deal.deal_id)
+                .single();
+            
+            const shop_user_id = data?.shop_user_id;
+
+            if (deal_error) throw deal_error;
+
+            // Get shop name and location 
+            const { data: shop, error: shop_error } = await supabase
+                .from('shop_profiles')
+                .select('name, location')
+                .eq('id', shop_user_id)
+                .single();
+
+            if (shop_error) throw shop_error;
+
+            if (deal && shop) {
+                deals.push({
+                     ...deal,
+                     user_deal_id: user_deal.id,
+                     name: shop.name,
+                     location: shop.location
+                });
             }
         }
 
