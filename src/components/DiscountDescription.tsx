@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
-import { Deal_t } from "../operations/UserDeal";
+import { UserDeal_t } from "../operations/UserDeal";
 import Colours from "../config/Colours";
 import { getWeekdays } from "../config/Weekdays";
 import { formatTime, formatDate } from "../config/FormatDateTime";
 import Fonts from "../config/Fonts";
 
 
-export default function getDiscountDescription(deal: Deal_t) {
+export default function getDiscountDescription(deal: UserDeal_t) {
   switch (deal.type) {
     case 0: // Classic bonus point type discount
       return (
