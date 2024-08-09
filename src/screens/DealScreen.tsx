@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native'
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 import Colours from '../config/Colours'
@@ -16,10 +16,9 @@ const DealScreen = () => {
     
     const deal = route.params.deal
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         navigation.setOptions({ title: deal.name })
     }, [])
-
     
     return (
         <View style={styles.container}>
