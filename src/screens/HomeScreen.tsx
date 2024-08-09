@@ -22,11 +22,6 @@ export default function HomeScreen({ session }: { session: Session }) {
 
   return (
     <View style={{ flex: 1 }}>
-      <Button
-          title="Refresh"
-          onPress={fetchDeals}
-          color={Colours.green[Colours.theme]}
-      />
       <FlatList
         data={deals}
         style={styles.container}
