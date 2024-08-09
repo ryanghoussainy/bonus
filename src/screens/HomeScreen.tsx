@@ -21,31 +21,38 @@ export default function HomeScreen({ session }: { session: Session }) {
   }, [session])
 
   return (
-    <FlatList
-      data={deals}
-      style={styles.container}
-      renderItem={({ item }) => <Deal deal={item} />}
-      ListEmptyComponent={() => {
-        if (loading) {
+    <View style={{ flex: 1 }}>
+      <Button
+          title="Refresh"
+          onPress={fetchDeals}
+          color={Colours.green[Colours.theme]}
+      />
+      <FlatList
+        data={deals}
+        style={styles.container}
+        renderItem={({ item }) => <Deal deal={item} />}
+        ListEmptyComponent={() => {
+          if (loading) {
+              return (
+              <View style={styles.container}>
+                <ActivityIndicator size="large" color={Colours.green[Colours.theme]} />
+              </View>
+            ) 
+          } else {
             return (
-            <View style={styles.container}>
-              <ActivityIndicator size="large" color={Colours.green[Colours.theme]} />
-            </View>
-          ) 
-        } else {
-          return (
-            <View style={styles.container}>
-              <Text style={styles.text}>No deals found.</Text>
-              <Button
-                title="Refresh"
-                onPress={fetchDeals}
-                color={Colours.green[Colours.theme]}
-              />
-            </View>
-          )
-        }
-      }}
-    />
+              <View style={styles.container}>
+                <Text style={styles.text}>No deals found.</Text>
+                <Button
+                  title="Refresh"
+                  onPress={fetchDeals}
+                  color={Colours.green[Colours.theme]}
+                />
+              </View>
+            )
+          }
+        }}
+      />
+    </View>
   )
 }
 
