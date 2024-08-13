@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import { Alert } from 'react-native';
 
 export type UserDeal_t = {
+    id: string;
     name: string;
     description: string;
     location: string;
@@ -35,7 +36,7 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
         for (const user_deal of user_deals) {
             const { data: deal, error } = await supabase
                 .from('deals')
-                .select('description, type, percentage, start_time, end_time, end_date, days, max_pts')
+                .select('id, description, type, percentage, start_time, end_time, end_date, days, max_pts')
                 .eq('id', user_deal.deal_id)
                 .single();
 

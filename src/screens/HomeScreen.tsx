@@ -25,7 +25,7 @@ export default function HomeScreen({ session }: { session: Session }) {
       <FlatList
         data={deals}
         style={styles.container}
-        renderItem={({ item }) => <Deal deal={item} />}
+        renderItem={({ item }) => <Deal session={session} deal={item} />}
         ListEmptyComponent={() => {
           if (loading) {
               return (
