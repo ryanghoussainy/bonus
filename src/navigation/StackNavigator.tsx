@@ -27,7 +27,9 @@ const Navigator = ({ session }: { session: Session }) => {
         <Stack.Screen name="BONUS Deals">
           {() => <MainTabNavigator key={session.user.id} session={session} />}
         </Stack.Screen>
-        <Stack.Screen name="Deal" component={DealScreen} />
+        <Stack.Screen name="Deal">
+          {() => <DealScreen session={session} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   );

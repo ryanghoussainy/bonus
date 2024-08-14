@@ -1,20 +1,33 @@
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native'
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
 import Colours from '../config/Colours'
-import getDiscountDescription from '../components/DiscountDescription';
+import { getDiscountDescription, getDiscountTimes } from '../components/DiscountDescription';
 import { RootStackParamList } from '../navigation/StackNavigator';
 import Fonts from '../config/Fonts';
 import QRCode from 'react-native-qrcode-svg';
+import { getLogo, getLogoPath } from '../operations/Logo';
+import { Session } from '@supabase/supabase-js';
+import { Image } from '@rneui/themed';
 
 type DealScreenRouteProp = RouteProp<RootStackParamList, "Deal">;
 
-const DealScreen = () => {
+const DealScreen = ({ session }: { session: Session }) => {
+    const [url, setUrl] = useState<string>("");
+    const [logoUrl, setLogoUrl] = useState<string>("");
 
     const route = useRoute<DealScreenRouteProp>()
     const navigation = useNavigation()
     
     const deal = route.params.deal
+
+    useEffect(() => {
+        if (url) getLogo(url, setLogoUrl);
+    }, [url])
+
+    useEffect(() => {
+        getLogoPath(deal.id, setUrl);
+    }, [session])
 
     useLayoutEffect(() => {
         navigation.setOptions({ title: deal.name })
@@ -23,16 +36,29 @@ const DealScreen = () => {
     return (
         <View style={styles.container}>
             <View style={styles.dealContainer}>
+                {/* Logo */}
+                {logoUrl && 
+                    <Image
+                        source={{ uri: logoUrl }}
+                        accessibilityLabel="Logo"
+                        style={styles.logo}
+                        resizeMode="cover"
+                    />
+                }
+
                 {/* Discount */}
-                <View>{getDiscountDescription(deal)}</View>
+                <Text>
+                    {getDiscountDescription(deal)}
+                </Text>
+
+                {/* Discount Times */}
+                <View>{getDiscountTimes(deal)}</View>
 
                 {/* Redeem */}
-                <View style={styles.redeem}>
-                    <QRCode
-                        value={deal.user_deal_id}
-                        size={230}
-                    />
-                </View>
+                <QRCode
+                    value={deal.user_deal_id}
+                    size={230}
+                />
 
                 {/* Description */}
                 <Text style={[styles.description, { textDecorationLine: "underline" }]}>
@@ -59,6 +85,7 @@ const styles = StyleSheet.create({
         borderRadius: 35,
         borderColor: Colours.green[Colours.theme],
         borderWidth: 1,
+        alignItems: "center"
     },
     description: {
         paddingHorizontal: 15,
@@ -67,10 +94,10 @@ const styles = StyleSheet.create({
         fontFamily: Fonts.condensed,
         fontSize: 15,
     },
-    redeem: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+    logo: {
+        width: 100,
+        height: 100,
+        borderRadius: 25,
     },
 })
 

@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import Colours from "../config/Colours"
 import { UserDeal_t } from "../operations/UserDeal";
-import getDiscountDescription from "./DiscountDescription";
+import { getDiscountDescription, getDiscountTimes } from "./DiscountDescription";
 import { RootStackParamList } from "../navigation/StackNavigator";
 import Fonts from "../config/Fonts";
 import { useEffect, useState } from "react";
@@ -36,7 +36,7 @@ const Deal = ({ session, deal }: { session: Session, deal: UserDeal_t }) => {
                     {deal.name}
                 </Text>
                 
-                {/* get logo from supabase storage */}
+                {/* Logo */}
                 {logoUrl && 
                     <Image
                         source={{ uri: logoUrl }}
@@ -47,7 +47,10 @@ const Deal = ({ session, deal }: { session: Session, deal: UserDeal_t }) => {
                 }
             </View>
 
-            <View style={styles.discount}>{getDiscountDescription(deal)}</View>
+            <View style={styles.discount}>
+              {getDiscountDescription(deal)}
+              {getDiscountTimes(deal)}
+            </View>
         </View>
         </Pressable>
   )
