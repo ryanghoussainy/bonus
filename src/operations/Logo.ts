@@ -4,7 +4,7 @@ import { Alert } from 'react-native';
 
 export async function getLogoPath(
     deal_id: string,
-    setLogoUrl: (logoUrl: string) => void,
+    setUrl: (logoUrl: string) => void,
 ) {
     try {
         // Get shop user id
@@ -33,7 +33,7 @@ export async function getLogoPath(
         }
 
         if (logo) {
-            setLogoUrl(logo.logo_url);
+            setUrl(logo.logo_url);
         }
     } catch (error) {
         if (error instanceof Error) {
