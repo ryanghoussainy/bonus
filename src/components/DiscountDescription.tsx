@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   },
   discountTime: {
     color: Colours.green[Colours.theme],
+    fontSize: 30,
   },
   discountView: {
     marginBottom: 10,
