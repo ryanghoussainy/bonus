@@ -12,8 +12,10 @@ export default function HomeScreen({ session }: { session: Session }) {
 
   const fetchDeals = async () => {
     setLoading(true);
-    await getUserDeals(session, setDeals);
-    setLoading(false);
+    setTimeout(async () => {
+      await getUserDeals(session, setDeals);
+      setLoading(false);
+    }, 2000);
   };
 
   useEffect(() => {
