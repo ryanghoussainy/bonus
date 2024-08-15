@@ -3,25 +3,19 @@ import { supabase } from '../lib/supabase'
 import { StyleSheet, View } from 'react-native'
 import { Button, Input, Text } from '@rneui/themed'
 import { Session } from '@supabase/supabase-js'
-import { getUser, updateUser, deleteUser } from '../operations/User'
+import { getUser, updateUser } from '../operations/User'
 import Colours from "../config/Colours"
 import Fonts from '../config/Fonts'
+import DeleteUserWarning from '../components/DeleteUserWarning'
 
 export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
   const [name, setName] = useState('')  
   const [deleteUserWarning, setDeleteUserWarning] = useState(false)
-  const [deleteUserEmail, setDeleteUserEmail] = useState('')
-  const [enableDeleteUser, setEnableDeleteUser] = useState(false)
 
   useEffect(() => {
     if (session) getUser(session, setLoading, setName)
   }, [session])
-
-  useEffect(() => {
-    if (deleteUserEmail === session?.user?.email) setEnableDeleteUser(true)
-    else setEnableDeleteUser(false)
-  }, [deleteUserEmail])
 
   return (
     <View style={styles.container}>
@@ -96,33 +90,13 @@ export default function Account({ session }: { session: Session }) {
 
       {
         /* Delete User Warning */
-        deleteUserWarning ? 
-        <View style={styles.darkBackground}>
-          <View style={styles.deleteUserWarning}>
-            <Text style={styles.h2}>WARNING!!</Text>
-            <Text style={styles.input}>
-              You are deleting your account. If you are sure this is what you want, please enter your email.
-            </Text>
-            <Input
-              label="Email"
-              style={styles.input}
-              onChangeText={(text) => setDeleteUserEmail(text)}
-            />
-            <Button 
-              title="Cancel" 
-              onPress={() => setDeleteUserWarning(false)} 
-              color={Colours.green[Colours.theme]}
-              disabled={loading}
-            />
-            <Button 
-              title="Delete Account" 
-              onPress={() => deleteUser(session, setLoading)} 
-              color={Colours.red[Colours.theme]}
-              disabled={loading || !enableDeleteUser}
-            />
-          </View>
-        </View>
-        : null
+        deleteUserWarning &&
+        <DeleteUserWarning
+          session={session}
+          loading={loading}
+          setLoading={setLoading}
+          setDeleteUserWarning={setDeleteUserWarning}
+        />
       }
     </View>
   )
@@ -167,22 +141,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginTop: 2,
   },
-  darkBackground: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: "rgba(0,0,0,0.6)",
-    zIndex: 100,
-  },
-  deleteUserWarning: {
-    position: "absolute",
-    alignSelf: "center",
-    top: "30%",
-    backgroundColor: Colours.dealItem[Colours.theme],
-    display: "flex",
-    width: "85%",
-    padding: 10,
-  }
 })
