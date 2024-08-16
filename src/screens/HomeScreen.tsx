@@ -15,7 +15,7 @@ export default function HomeScreen({ session }: { session: Session }) {
     setTimeout(async () => {
       await getUserDeals(session, setDeals);
       setLoading(false);
-    }, 2000);
+    }, 500);
   };
 
   useEffect(() => {

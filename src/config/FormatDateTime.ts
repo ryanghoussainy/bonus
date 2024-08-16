@@ -7,18 +7,19 @@ formatDate("2021-12-25") -> "25th December 2021"
 export function formatDate(dateStr: string) {
     // Get the day
     let day = dateStr.slice(8, 10);
-    if (day[0] === "0") {
-        day = day[1];
-    }
 
-    if (day[1] === "1") {
+    if (day[1] === "1" && day !== "11") {
         day += "st";
     } else if (day[1] === "2" && day !== "12") {
         day += "nd";
-    } else if (day[1] === "3") {
+    } else if (day[1] === "3" && day !== "13") {
         day += "rd";
     } else {
         day += "th";
+    }
+
+    if (day[0] === "0") {
+        day = day.slice(1);
     }
 
     // Get the month
