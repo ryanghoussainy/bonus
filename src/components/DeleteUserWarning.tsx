@@ -20,39 +20,39 @@ export default function DeleteUserWarning(
         setDeleteUserWarning: (value: boolean) => void,
     }
 ) {
-    {/* Check that email matches. */}
+    {/* Check that email matches. */ }
     const [deleteUserEmail, setDeleteUserEmail] = useState('')
     const [enableDeleteUser, setEnableDeleteUser] = useState(false)
 
     useEffect(() => {
         if (deleteUserEmail === session?.user?.email) setEnableDeleteUser(true)
         else setEnableDeleteUser(false)
-      }, [deleteUserEmail])
-    
+    }, [deleteUserEmail])
+
     return (
         <View style={styles.darkBackground}>
             <View style={styles.deleteUserWarning}>
-            <Text style={styles.h2}>WARNING!!</Text>
-            <Text style={styles.input}>
-                You are deleting your account. If you are sure this is what you want, please enter your email.
-            </Text>
-            <Input
-                label="Email"
-                style={styles.input}
-                onChangeText={(text) => setDeleteUserEmail(text)}
-            />
-            <Button
-                title="Cancel" 
-                onPress={() => setDeleteUserWarning(false)} 
-                color={Colours.green[Colours.theme]}
-                disabled={loading}
-            />
-            <Button 
-                title="Delete Account" 
-                onPress={() => deleteUser(session, setLoading)} 
-                color={Colours.red[Colours.theme]}
-                disabled={loading || !enableDeleteUser}
-            />
+                <Text style={styles.h2}>WARNING!!</Text>
+                <Text style={styles.input}>
+                    You are deleting your account. If you are sure this is what you want, please enter your email.
+                </Text>
+                <Input
+                    label="Email"
+                    style={styles.input}
+                    onChangeText={(text) => setDeleteUserEmail(text)}
+                />
+                <Button
+                    title="Cancel"
+                    onPress={() => setDeleteUserWarning(false)}
+                    color={Colours.primary[Colours.theme]}
+                    disabled={loading}
+                />
+                <Button
+                    title="Delete Account"
+                    onPress={() => deleteUser(session, setLoading)}
+                    color={Colours.red[Colours.theme]}
+                    disabled={loading || !enableDeleteUser}
+                />
             </View>
         </View>
     )

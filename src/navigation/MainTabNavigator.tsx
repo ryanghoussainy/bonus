@@ -19,7 +19,7 @@ export default function MainTabNavigator({ session }: { session: Session }) {
           ),
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarActiveTintColor: Colours.green[Colours.theme],
+          tabBarActiveTintColor: Colours.primary[Colours.theme],
         })}>
         {() => <HomeScreen session={session} />}
       </Tab.Screen>
@@ -32,7 +32,7 @@ export default function MainTabNavigator({ session }: { session: Session }) {
           ),
           headerShown: false,
           tabBarShowLabel: false,
-          tabBarActiveTintColor: Colours.green[Colours.theme],
+          tabBarActiveTintColor: Colours.primary[Colours.theme],
         })}
       >
         {() => <Account session={session} />}

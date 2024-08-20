@@ -10,7 +10,7 @@ import DeleteUserWarning from '../components/DeleteUserWarning'
 
 export default function Account({ session }: { session: Session }) {
   const [loading, setLoading] = useState(true)
-  const [name, setName] = useState('')  
+  const [name, setName] = useState('')
   const [deleteUserWarning, setDeleteUserWarning] = useState(false)
 
   useEffect(() => {
@@ -26,17 +26,17 @@ export default function Account({ session }: { session: Session }) {
       <View style={styles.miniDivider} />
 
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Input 
-          label="Email" 
-          value={session?.user?.email} 
-          disabled 
+        <Input
+          label="Email"
+          value={session?.user?.email}
+          disabled
           style={styles.input}
         />
       </View>
       <View style={styles.verticallySpaced}>
-        <Input 
-          label="First Name" 
-          value={name || ''} 
+        <Input
+          label="First Name"
+          value={name || ''}
           onChangeText={(text) => setName(text)}
           style={styles.input}
           disabled={loading || deleteUserWarning}
@@ -49,7 +49,7 @@ export default function Account({ session }: { session: Session }) {
         <Button
           title={loading ? 'Loading ...' : 'Update'}
           onPress={() => updateUser(session, name, setLoading)}
-          color={Colours.green[Colours.theme]}
+          color={Colours.primary[Colours.theme]}
           disabled={loading}
         />
       </View>
@@ -62,10 +62,10 @@ export default function Account({ session }: { session: Session }) {
         <View style={styles.miniDivider} />
 
         <View style={styles.verticallySpaced}>
-          <Button 
-            title="Sign Out" 
-            onPress={() => supabase.auth.signOut()} 
-            color={Colours.red[Colours.theme]}
+          <Button
+            title="Sign Out"
+            onPress={() => supabase.auth.signOut()}
+            color={Colours.primary[Colours.theme]}
             disabled={loading}
           />
         </View>
@@ -79,10 +79,10 @@ export default function Account({ session }: { session: Session }) {
         <View style={styles.miniDivider}></View>
 
         <View style={styles.verticallySpaced}>
-          <Button 
-            title="Delete Account"  
+          <Button
+            title="Delete Account"
             onPress={() => setDeleteUserWarning(true)}
-            color={Colours.red[Colours.theme]}
+            color={Colours.primary[Colours.theme]}
             disabled={loading}
           />
         </View>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   miniDivider: {
     borderBottomWidth: 1,
-    borderBottomColor: Colours.green[Colours.theme],
+    borderBottomColor: Colours.primary[Colours.theme],
     width: "20%",
     alignSelf: "center",
     marginBottom: 20,

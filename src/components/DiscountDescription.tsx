@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     fontFamily: Fonts.condensed,
   },
   discountTime: {
-    color: Colours.green[Colours.theme],
+    color: Colours.primary[Colours.theme],
     fontSize: 30,
   },
   discountView: {

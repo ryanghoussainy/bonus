@@ -18,7 +18,7 @@ const DealScreen = ({ session }: { session: Session }) => {
 
     const route = useRoute<DealScreenRouteProp>()
     const navigation = useNavigation()
-    
+
     const deal = route.params.deal
 
     useEffect(() => {
@@ -32,12 +32,12 @@ const DealScreen = ({ session }: { session: Session }) => {
     useLayoutEffect(() => {
         navigation.setOptions({ title: deal.name })
     }, [])
-    
+
     return (
         <View style={styles.container}>
             <View style={styles.dealContainer}>
                 {/* Logo */}
-                {logoUrl && 
+                {logoUrl &&
                     <Image
                         source={{ uri: logoUrl }}
                         accessibilityLabel="Logo"
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         marginVertical: 40,
         marginHorizontal: 30,
         borderRadius: 35,
-        borderColor: Colours.green[Colours.theme],
+        borderColor: Colours.primary[Colours.theme],
         borderWidth: 1,
         alignItems: "center"
     },

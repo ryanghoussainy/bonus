@@ -61,18 +61,18 @@ export default function Auth() {
         />
       </View>
       <View style={[styles.verticallySpaced, styles.mt20]}>
-        <Button 
-          title="Log in" 
-          disabled={loading} 
-          onPress={() => signInWithEmail()} 
+        <Button
+          title="Log in"
+          disabled={loading}
+          onPress={() => signInWithEmail()}
           buttonStyle={styles.button}
         />
       </View>
       <View style={styles.verticallySpaced}>
-        <Button 
-          title="Sign up" 
-          disabled={loading} 
-          onPress={() => createUser(email, password, setLoading)} 
+        <Button
+          title="Sign up"
+          disabled={loading}
+          onPress={() => createUser(email, password, setLoading)}
           buttonStyle={styles.button}
         />
       </View>
@@ -82,7 +82,7 @@ export default function Auth() {
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: Colours.green[Colours.theme],
+    backgroundColor: Colours.primary[Colours.theme],
   },
   container: {
     marginTop: 30,

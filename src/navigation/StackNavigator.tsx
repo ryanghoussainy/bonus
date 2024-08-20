@@ -22,26 +22,26 @@ const Navigator = ({ session }: { session: Session }) => {
 
   useEffect(() => {
     const checkUserRole = async () => {
-        const { data: user, error } = await supabase.auth.getUser();
+      const { data: user, error } = await supabase.auth.getUser();
 
-        if (error) {
-            Alert.alert(error.message);
-            setLoading(false);
-            return;
+      if (error) {
+        Alert.alert(error.message);
+        setLoading(false);
+        return;
+      }
+
+      if (user) {
+        const role = user.user.user_metadata.role;
+
+        if (role !== '0') {
+          // Sign out and alert the user
+          await supabase.auth.signOut();
+          Alert.alert('The login details you entered are not for this app.', 'Please sign in with the correct details.')
+        } else {
+          // User is authorised
+          setLoading(false);
         }
-
-        if (user) {
-            const role = user.user.user_metadata.role;
-
-            if (role !== '0') {
-              // Sign out and alert the user
-              await supabase.auth.signOut();
-              Alert.alert('The login details you entered are not for this app.', 'Please sign in with the correct details.')
-            } else {
-              // User is authorised
-              setLoading(false);
-            }
-        }
+      }
     }
     checkUserRole();
   }, [])
@@ -49,7 +49,7 @@ const Navigator = ({ session }: { session: Session }) => {
   if (loading) {
     return (
       <View style={styles.loading}>
-        <ActivityIndicator size="large" color={Colours.green[Colours.theme]} />
+        <ActivityIndicator size="large" color={Colours.primary[Colours.theme]} />
       </View>
     )
   }

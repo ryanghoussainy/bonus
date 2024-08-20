@@ -30,11 +30,11 @@ export default function HomeScreen({ session }: { session: Session }) {
         renderItem={({ item }) => <Deal session={session} deal={item} />}
         ListEmptyComponent={() => {
           if (loading) {
-              return (
+            return (
               <View style={styles.container}>
-                <ActivityIndicator size="large" color={Colours.green[Colours.theme]} />
+                <ActivityIndicator size="large" color={Colours.primary[Colours.theme]} />
               </View>
-            ) 
+            )
           } else {
             return (
               <View style={styles.container}>
@@ -42,7 +42,7 @@ export default function HomeScreen({ session }: { session: Session }) {
                 <Button
                   title="Refresh"
                   onPress={fetchDeals}
-                  color={Colours.green[Colours.theme]}
+                  color={Colours.primary[Colours.theme]}
                 />
               </View>
             )
