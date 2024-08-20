@@ -1,10 +1,11 @@
 import { StyleSheet, FlatList, View, ActivityIndicator } from 'react-native';
-import { useState, useEffect } from 'react';
+import { useCallback, useState } from 'react';
 import { UserDeal_t, getUserDeals } from '../operations/UserDeal';
 import Deal from '../components/Deal';
 import Colours from '../config/Colours';
 import { Session } from '@supabase/supabase-js';
 import { Button, Text } from '@rneui/themed';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen({ session }: { session: Session }) {
   const [deals, setDeals] = useState<UserDeal_t[]>([]);
@@ -12,15 +13,14 @@ export default function HomeScreen({ session }: { session: Session }) {
 
   const fetchDeals = async () => {
     setLoading(true);
-    setTimeout(async () => {
-      await getUserDeals(session, setDeals);
-      setLoading(false);
-    }, 500);
+    await getUserDeals(session, setDeals);
+    setLoading(false);
   };
 
-  useEffect(() => {
-    fetchDeals();
-  }, [session])
+  // Focus Effect to fetch deals when the screen is focused
+  useFocusEffect(useCallback(() => {
+    fetchDeals()
+  }, [session]))
 
   return (
     <View style={{ flex: 1 }}>

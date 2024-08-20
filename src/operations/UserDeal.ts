@@ -4,70 +4,108 @@ import { Alert } from 'react-native';
 
 export type UserDeal_t = {
     id: string;
-    name: string;
-    description: string;
-    location: string;
-    type: number;
-    percentage: number;
-    start_time: string;
-    end_time: string;
-    end_date: string;
-    days: string;
-    max_pts?: number;
     user_deal_id: string;
+    name: string;
+    location: string;
+    description: string;
+    discountType: number;
+    discount: number;
+    endDate: string | null;
+    maxPoints: number | null;
+    discountTimes: {
+        mon_start: string;
+        mon_end: string;
+        tue_start: string;
+        tue_end: string;
+        wed_start: string;
+        wed_end: string;
+        thu_start: string;
+        thu_end: string;
+        fri_start: string;
+        fri_end: string;
+        sat_start: string;
+        sat_end: string;
+        sun_start: string;
+        sun_end: string;
+    };
 }
 
 export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_t[]) => void) {
     try {
         // Get user_id
-        const user_id = session.user?.id;
-        if (!user_id) throw new Error('No user on the session!');
+        const userID = session.user?.id;
+        if (!userID) throw new Error('No user on the session!');
         
-        // Get user_deals for this user
-        const { data: user_deals, error } = await supabase
+        // Get user deals for this user
+        const { data: userDeals, error } = await supabase
             .from('user_deals')
             .select('id, user_id, deal_id, points')
-            .eq('user_id', user_id);
+            .eq('user_id', userID);
 
-        if (error) throw error;
+        if (error) {
+            Alert.alert(error.message);
+            return;
+        }
 
-        // Get deals from these user_deals
+        // Get deals from these user deals
         const deals: UserDeal_t[] = [];
-        for (const user_deal of user_deals) {
+        for (const userDeal of userDeals) {
             const { data: deal, error } = await supabase
                 .from('deals')
-                .select('id, description, type, percentage, start_time, end_time, end_date, days, max_pts')
-                .eq('id', user_deal.deal_id)
+                .select('id, description, type, percentage, end_date, max_pts, deal_times_id, shop_user_id')
+                .eq('id', userDeal.deal_id)
                 .single();
 
-            if (error) throw error;
-
-            // Get shop_user_id
-            const { data, error: deal_error } = await supabase
-                .from('deals')
-                .select('shop_user_id')
-                .eq('id', user_deal.deal_id)
-                .single();
+            if (error) {
+                Alert.alert(error.message);
+                return;
+            }
             
-            const shop_user_id = data?.shop_user_id;
-
-            if (deal_error) throw deal_error;
+            const shopUserID = deal?.shop_user_id;
 
             // Get shop name and location 
-            const { data: shop, error: shop_error } = await supabase
+            const { data: shop, error: shopError } = await supabase
                 .from('shop_profiles')
                 .select('name, location')
-                .eq('id', shop_user_id)
+                .eq('id', shopUserID)
                 .single();
 
-            if (shop_error) throw shop_error;
+            if (shopError) {
+                Alert.alert(shopError.message);
+                return;
+            }
+
+            // Get discount times
+            const dealTimesID = deal?.deal_times_id;
+            const { data: discountTimes, error: discountTimesError } = await supabase
+                .from('deal_times')
+                .select('mon_start, mon_end, \
+                        tue_start, tue_end, \
+                        wed_start, wed_end, \
+                        thu_start, thu_end, \
+                        fri_start, fri_end, \
+                        sat_start, sat_end, \
+                        sun_start, sun_end')
+                .eq('id', dealTimesID)
+                .single();
+
+            if (discountTimesError) {
+                Alert.alert(discountTimesError.message);
+                return;
+            }
 
             if (deal && shop) {
                 deals.push({
-                     ...deal,
-                     user_deal_id: user_deal.id,
-                     name: shop.name,
-                     location: shop.location
+                    id: deal.id,
+                    user_deal_id: userDeal.id,
+                    name: shop.name,
+                    location: shop.location,
+                    description: deal.description,
+                    discountType: deal.type,
+                    discount: deal.percentage,
+                    endDate: deal.end_date,
+                    maxPoints: deal.max_pts,
+                    discountTimes,
                 });
             }
         }
