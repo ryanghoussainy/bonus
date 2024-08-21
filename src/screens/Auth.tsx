@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { Alert, StyleSheet, View, AppState } from 'react-native'
+import { Alert, View, AppState } from 'react-native'
 import { supabase } from '../lib/supabase'
 import { Button, Input } from '@rneui/themed'
+import { useTheme } from '../contexts/ThemeContext'
 import Colours from '../config/Colours'
 import { createUser } from '../operations/User'
 
@@ -21,6 +22,7 @@ export default function Auth() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const { theme } = useTheme() // Get the current theme
 
   async function signInWithEmail() {
     setLoading(true)
@@ -34,71 +36,48 @@ export default function Auth() {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+    <View style={{ marginTop: 30, padding: 12, backgroundColor: Colours.background[theme], flex: 1 }}>
+      <View style={{ paddingTop: 4, paddingBottom: 4, alignSelf: 'stretch', marginTop: 20 }}>
         <Input
           label="Email"
-          leftIcon={{ type: 'font-awesome', name: 'envelope', color: Colours.text[Colours.theme] }}
+          leftIcon={{ type: 'font-awesome', name: 'envelope', color: Colours.text[theme] }}
           onChangeText={(text) => setEmail(text)}
           value={email}
           placeholder="email@address.com"
           autoCapitalize={'none'}
-          style={styles.input}
+          style={{ color: Colours.text[theme] }}
           disabled={loading}
         />
       </View>
-      <View style={styles.verticallySpaced}>
+      <View style={{ paddingTop: 4, paddingBottom: 4, alignSelf: 'stretch' }}>
         <Input
           label="Password"
-          leftIcon={{ type: 'font-awesome', name: 'lock', color: Colours.text[Colours.theme], size: 30 }}
+          leftIcon={{ type: 'font-awesome', name: 'lock', color: Colours.text[theme], size: 30 }}
           onChangeText={(text) => setPassword(text)}
           value={password}
           secureTextEntry={true}
           placeholder="Password"
           autoCapitalize={'none'}
-          style={styles.input}
+          style={{ color: Colours.text[theme] }}
           disabled={loading}
         />
       </View>
-      <View style={[styles.verticallySpaced, styles.mt20]}>
+      <View style={{ paddingTop: 4, paddingBottom: 4, alignSelf: 'stretch', marginTop: 20 }}>
         <Button
           title="Log in"
           disabled={loading}
           onPress={() => signInWithEmail()}
-          buttonStyle={styles.button}
+          buttonStyle={{ backgroundColor: Colours.primary }}
         />
       </View>
-      <View style={styles.verticallySpaced}>
+      <View style={{ paddingTop: 4, paddingBottom: 4, alignSelf: 'stretch' }}>
         <Button
           title="Sign up"
           disabled={loading}
           onPress={() => createUser(email, password, setLoading)}
-          buttonStyle={styles.button}
+          buttonStyle={{ backgroundColor: Colours.primary }}
         />
       </View>
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  button: {
-    backgroundColor: Colours.primary[Colours.theme],
-  },
-  container: {
-    marginTop: 30,
-    padding: 12,
-    backgroundColor: Colours.background[Colours.theme],
-    flex: 1,
-  },
-  input: {
-    color: Colours.text[Colours.theme],
-  },
-  verticallySpaced: {
-    paddingTop: 4,
-    paddingBottom: 4,
-    alignSelf: 'stretch',
-  },
-  mt20: {
-    marginTop: 20,
-  },
-})

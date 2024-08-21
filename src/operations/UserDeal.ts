@@ -77,6 +77,7 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
 
             // Get discount times
             const dealTimesID = deal?.deal_times_id;
+
             const { data: discountTimes, error: discountTimesError } = await supabase
                 .from('deal_times')
                 .select('mon_start, mon_end, \

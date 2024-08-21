@@ -1,21 +1,24 @@
-import { StyleSheet, FlatList, View, ActivityIndicator } from 'react-native';
-import { useCallback, useState } from 'react';
-import { UserDeal_t, getUserDeals } from '../operations/UserDeal';
-import Deal from '../components/Deal';
-import Colours from '../config/Colours';
-import { Session } from '@supabase/supabase-js';
-import { Button, Text } from '@rneui/themed';
-import { useFocusEffect } from '@react-navigation/native';
+import { useCallback, useState } from 'react'
+import { FlatList, View, ActivityIndicator } from 'react-native'
+import { UserDeal_t, getUserDeals } from '../operations/UserDeal'
+import Deal from '../components/Deal'
+import Colours from '../config/Colours'
+import { Session } from '@supabase/supabase-js'
+import { Button, Text } from '@rneui/themed'
+import { useFocusEffect } from '@react-navigation/native'
+import { LinearGradient } from 'expo-linear-gradient'
+import { useTheme } from '../contexts/ThemeContext'
 
 export default function HomeScreen({ session }: { session: Session }) {
-  const [deals, setDeals] = useState<UserDeal_t[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [deals, setDeals] = useState<UserDeal_t[]>([])
+  const [loading, setLoading] = useState(true)
+  const { theme } = useTheme() // Get the current theme
 
   const fetchDeals = async () => {
-    setLoading(true);
-    await getUserDeals(session, setDeals);
-    setLoading(false);
-  };
+    setLoading(true)
+    await getUserDeals(session, setDeals)
+    setLoading(false)
+  }
 
   // Focus Effect to fetch deals when the screen is focused
   useFocusEffect(useCallback(() => {
@@ -23,44 +26,34 @@ export default function HomeScreen({ session }: { session: Session }) {
   }, [session]))
 
   return (
-    <View style={{ flex: 1 }}>
+    <LinearGradient
+      style={{ flex: 1 }}
+      colors={[Colours.background[theme], Colours.dealItem[theme]]}
+    >
       <FlatList
         data={deals}
-        style={styles.container}
         renderItem={({ item }) => <Deal session={session} deal={item} />}
         ListEmptyComponent={() => {
           if (loading) {
             return (
-              <View style={styles.container}>
-                <ActivityIndicator size="large" color={Colours.primary[Colours.theme]} />
-              </View>
+              <ActivityIndicator size="large" color={Colours.primary} />
             )
           } else {
             return (
-              <View style={styles.container}>
-                <Text style={styles.text}>No deals found.</Text>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ fontSize: 18, fontWeight: '500', color: Colours.text[theme], textAlign: 'center' }}>
+                  No deals found.
+                </Text>
                 <Button
                   title="Refresh"
                   onPress={fetchDeals}
-                  color={Colours.primary[Colours.theme]}
+                  color={Colours.primary}
                 />
               </View>
             )
           }
         }}
       />
-    </View>
+    </LinearGradient>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colours.background[Colours.theme],
-  },
-  text: {
-    fontSize: 18,
-    fontWeight: "500",
-    color: Colours.text[Colours.theme],
-    textAlign: "center",
-  },
-})

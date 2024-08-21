@@ -1,12 +1,16 @@
 import { View, Text, StyleSheet } from 'react-native';
-import colours from '../config/Colours';
+import Colours from '../config/Colours';
+import { useTheme } from '../contexts/ThemeContext';
 
 export default function NotImplemented() {
- return (
-   <View style={styles.container}>
-     <Text style={styles.text}>Not Implemented!</Text>
-   </View>
- )
+  // Get theme
+  const { theme } = useTheme();
+
+  return (
+    <View style={[styles.container, { backgroundColor: Colours.background[theme] }]}>
+      <Text style={[styles.text, { color: Colours.text[theme] }]}>Not Implemented!</Text>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -14,11 +18,9 @@ const styles = StyleSheet.create({
        flex: 1,
        alignItems: "center",
        justifyContent: "center",
-       backgroundColor: colours.background[colours.theme],
    },
    text: {
        fontSize: 18,
        fontWeight: "500",
-       color: colours.text[colours.theme],
    },
 })
