@@ -37,6 +37,21 @@ export default function Auth() {
     createUser(email, password, firstName, surname, mobileNumber, preferredTheme ? "dark" : "light", setLoading);
   }
 
+  const handleCloseModal = () => {
+    setModalVisible(false);
+    setEmail('');
+    setPassword('');
+    setFirstName('');
+    setSurname('');
+    setMobileNumber('');
+  }
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+    setEmail('');
+    setPassword('');
+  }
+
   return (
     <View style={[styles.container, { backgroundColor: Colours.background[theme] }]}>
       <Text style={styles.title}>Welcome!</Text>
@@ -85,7 +100,7 @@ export default function Auth() {
         titleStyle={styles.loginTitle}
       />
 
-      <TouchableOpacity onPress={() => setModalVisible(true)}>
+      <TouchableOpacity onPress={handleOpenModal}>
         <Text style={styles.signupText}>Don't have an account? Sign up</Text>
       </TouchableOpacity>
 
@@ -94,12 +109,24 @@ export default function Auth() {
         animationType="slide"
         transparent={true}
         visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={handleCloseModal}
       >
         <View style={styles.modalOverlay}>
           <View style={[styles.modalContainer, { backgroundColor: Colours.background[theme] }]}>
             <ScrollView contentContainerStyle={styles.modalContent}>
               <Text style={styles.modalTitle}>Create Account</Text>
+
+              <View style={styles.themeToggleContainer}>
+                <Text style={[styles.themeToggleText, { color: Colours.text[theme] }]}>Preferred Theme:</Text>
+                <Switch
+                  value={preferredTheme}
+                  onValueChange={(value) => {
+                    setPreferredTheme(value);
+                    toggleTheme();
+                  }}
+                  color={Colours.primary}
+                />
+              </View>
 
               <Input
                 label="Email *"
@@ -168,27 +195,8 @@ export default function Auth() {
                 disabled={loading}
               />
 
-              <View style={styles.themeToggleContainer}>
-                <Text style={[styles.themeToggleText, { color: Colours.text[theme] }]}>Preferred Theme:</Text>
-                <Switch
-                  value={preferredTheme}
-                  onValueChange={(value) => {
-                    setPreferredTheme(value);
-                    toggleTheme();
-                  }}
-                  color={Colours.primary}
-                />
-              </View>
-
               <View style={styles.bottomContainer}>
-                <TouchableOpacity onPress={() => {
-                  setModalVisible(false)
-                  setEmail('');
-                  setPassword('');
-                  setFirstName('');
-                  setSurname('');
-                  setMobileNumber('');
-                }} style={styles.buttonWidth}>
+                <TouchableOpacity onPress={handleCloseModal} style={styles.buttonWidth}>
                   <Text style={styles.closeModalText}>Close</Text>
 
                 </TouchableOpacity>
