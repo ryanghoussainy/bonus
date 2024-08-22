@@ -14,9 +14,8 @@ export default function General({ session }: { session: Session }) {
     const { theme, toggleTheme } = useTheme();
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
-    const [confirmingDelete, setConfirmingDelete] = useState(false); // New state for confirming delete
-    const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const [password, setPassword] = useState('');
 
     const toggleNotifications = () => {
         setNotificationsEnabled((previousState) => !previousState);
@@ -34,18 +33,17 @@ export default function General({ session }: { session: Session }) {
             return;
         }
 
-        setConfirmingDelete(true); // Show confirming modal
+        setLoading(true); // Show confirming modal
 
         if (await confirmPassword(session, password)) {
             // Simulate network delay for visual effect
             setTimeout(async () => {
                 // Delete account
                 await deleteUser(session, setLoading);
-                setConfirmingDelete(false); // Hide confirming modal
                 Alert.alert("Account deleted", "Your account has been successfully deleted.");
             }, 2000);
         } else {
-            setConfirmingDelete(false); // Hide confirming modal
+            setLoading(false); // Hide confirming modal
             Alert.alert("Incorrect Password", "The password you entered is incorrect. Please try again.");
             setPassword('');
         }
@@ -140,9 +138,9 @@ export default function General({ session }: { session: Session }) {
             <Modal
                 animationType="fade"
                 transparent={true}
-                visible={confirmingDelete}
+                visible={loading}
                 onRequestClose={() => {
-                    setConfirmingDelete(false);
+                    setLoading(false);
                 }}
             >
                 <View style={styles.modalOverlay}>

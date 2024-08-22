@@ -88,6 +88,7 @@ export async function deleteUser(
 
   try {
     // Delete the auth user from the database
+    setLoading(true);
     await supabase.functions.invoke('user-self-deletion')
     alert('Account deleted successfully!')
   } catch (error) {
