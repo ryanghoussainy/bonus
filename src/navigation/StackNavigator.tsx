@@ -71,15 +71,15 @@ const Navigator = ({ session }: { session: Session }) => {
         <Stack.Screen name="Main" options={{ headerShown: false }}>
           {() => <MainTabNavigator key={session.user.id} session={session} />}
         </Stack.Screen>
-        <Stack.Screen name="Deal">
+        <Stack.Screen name="Deal" options={{ animation: 'fade_from_bottom' }}>
           {() => <DealScreen session={session} />}
         </Stack.Screen>
 
         {/* Settings screens */}
-        <Stack.Screen name="Account" options={{ headerShown: false }}>
+        <Stack.Screen name="Account" options={{ headerShown: false, animation: 'slide_from_right' }}>
           {() => <Account session={session} />}
         </Stack.Screen>
-        <Stack.Screen name="General" options={{ headerShown: false }}>
+        <Stack.Screen name="General" options={{ headerShown: false, animation: 'slide_from_right' }}>
           {() => <General session={session} />}
         </Stack.Screen>
 
