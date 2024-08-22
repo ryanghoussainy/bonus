@@ -56,7 +56,10 @@ export default function General({ session }: { session: Session }) {
     return (
         <LinearGradient colors={[Colours.background[theme], Colours.dealItem[theme]]} style={styles.container}>
             {/* Back Button */}
-            <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
+            <TouchableOpacity
+                style={[styles.backButton, { backgroundColor: Colours.background[theme] }]}
+                onPress={() => navigation.goBack()}
+            >
                 <Ionicons name="arrow-back-outline" size={28} color={Colours.text[theme]} />
             </TouchableOpacity>
 
@@ -165,6 +168,11 @@ const styles = StyleSheet.create({
         top: 60,
         left: 20,
         zIndex: 1,
+        borderRadius: 20,
+        width: 35,
+        height: 35,
+        alignItems: "center",
+        justifyContent: "center",
     },
     header: {
         fontSize: 36,

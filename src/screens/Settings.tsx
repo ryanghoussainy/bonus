@@ -1,4 +1,4 @@
-import { Alert, ScrollView, StyleSheet, TouchableOpacity, View, Modal, ActivityIndicator } from 'react-native';
+import { ScrollView, StyleSheet, TouchableOpacity, View, Modal, ActivityIndicator } from 'react-native';
 import { Text } from '@rneui/themed';
 import { Session } from '@supabase/supabase-js';
 import Colours from "../config/Colours";
