@@ -8,7 +8,7 @@ Get the user's details.
 export async function getUser(
   session: Session,
   setFirstName: (firstName: string) => void,
-  setLastName: (lastName: string) => void,
+  setSurname: (surname: string) => void,
   setMobileNumber: (mobileNumber: string) => void,
   setLoading: (loading: boolean) => void,
 ) {
@@ -18,7 +18,7 @@ export async function getUser(
 
     const { data, error, status } = await supabase
       .from('profiles')
-      .select(`first_name, last_name, mobile_number`)
+      .select(`first_name, surname, mobile_number`)
       .eq('id', session?.user.id)
       .single()
     if (error && status !== 406) {
@@ -27,7 +27,7 @@ export async function getUser(
 
     if (data) {
       setFirstName(data.first_name)
-      setLastName(data.last_name)
+      setSurname(data.surname)
       setMobileNumber(data.mobile_number)
     }
   } catch (error) {
@@ -45,7 +45,7 @@ Update the user's name.
 export async function updateUser(
   session: Session,
   firstName: string,
-  lastName: string,
+  surname: string,
   mobile_number: string,
   setLoading: (loading: boolean) => void
 ) {
@@ -57,7 +57,7 @@ export async function updateUser(
       id: session?.user.id,
       updated_at: new Date(),
       first_name: firstName,
-      last_name: lastName,
+      surname: surname,
       mobile_number: mobile_number,
     }
 
@@ -104,6 +104,10 @@ export async function deleteUser(
 export async function createUser(
   email: string,
   password: string,
+  firstName: string,
+  surname: string,
+  mobileNumber: string,
+  preferredTheme: string,
   setLoading: (loading: boolean) => void
 ) {
   // Sign up with email and password
@@ -153,6 +157,36 @@ export async function createUser(
       setLoading(false)
       return
     }
+  }
+
+  // The profile is created by a trigger in the backend, so we need to wait for it to be created
+  let profileCreated = false
+  while (!profileCreated) {
+    const { data: profile, error: profileError } = await supabase.from('profiles').select('id').eq('id', user_id).single()
+    if (profileError) {
+      Alert.alert(profileError.message)
+      setLoading(false)
+      return
+    }
+    if (profile) {
+      profileCreated = true
+    }
+  }
+
+  // Insert the user's details
+  const { error: profileError } = await supabase.from('profiles').upsert({
+    id: user_id,
+    updated_at: new Date(),
+    first_name: firstName,
+    surname: surname,
+    mobile_number: mobileNumber,
+    theme: preferredTheme,
+  })
+
+  if (profileError) {
+    Alert.alert(profileError.message)
+    setLoading(false)
+    return
   }
 
   setLoading(false)

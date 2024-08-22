@@ -9,13 +9,13 @@ export const ThemeContext = createContext<{
     theme: Theme_t;
     toggleTheme: () => void;
 }>({
-    theme: 'dark', // default value
+    theme: 'dark',
     toggleTheme: () => {},
 });
 
 export const ThemeProvider = ({ children, session }: { children: React.ReactNode, session: Session | null }) => {
     const colorScheme = Appearance.getColorScheme();
-    const [theme, setTheme] = useState<Theme_t>(colorScheme === 'dark' ? 'dark' : 'light');
+    const [theme, setTheme] = useState<Theme_t>('dark');
 
     // Fetch theme from the database
     useEffect(() => {

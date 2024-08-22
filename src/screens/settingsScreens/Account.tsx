@@ -15,23 +15,23 @@ export default function Account({ session }: { session: Session }) {
 
     const navigation = useNavigation();
     const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
+    const [surname, setSurname] = useState("");
     const [mobileNumber, setMobileNumber] = useState("");
     const [loading, setLoading] = useState(true);
     const [loadingSave, setLoadingSave] = useState(false);
 
     // Fetch user from backend
     useEffect(() => {
-        if (session) getUser(session, setFirstName, setLastName, setMobileNumber, setLoading);
+        if (session) getUser(session, setFirstName, setSurname, setMobileNumber, setLoading);
     }, [session]);
 
     const handleSave = () => {
-        if (!firstName || !lastName) {
+        if (!firstName || !surname) {
             Alert.alert("Please fill in all required fields.");
             return;
         }
         // Update user details
-        updateUser(session, firstName, lastName, mobileNumber, setLoadingSave);
+        updateUser(session, firstName, surname, mobileNumber, setLoadingSave);
     };
 
     return (
@@ -85,8 +85,8 @@ export default function Account({ session }: { session: Session }) {
                                 color: Colours.text[theme],
                                 borderColor: Colours.dealItem[theme]
                             }]}
-                            value={lastName}
-                            onChangeText={setLastName}
+                            value={surname}
+                            onChangeText={setSurname}
                             placeholder="Enter your last name"
                             placeholderTextColor="#888"
                         />
