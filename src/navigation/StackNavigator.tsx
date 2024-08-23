@@ -54,7 +54,7 @@ const Navigator = ({ session }: { session: Session }) => {
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: Colours.background[theme] }}>
-        <ActivityIndicator size="large" color={Colours.primary} />
+        <ActivityIndicator size="large" color={Colours.primary[theme]} />
       </View>
     );
   }

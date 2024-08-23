@@ -19,7 +19,7 @@ export function getDiscountDescription(deal: UserDeal_t) {
             <Text style={[styles.discountText, { color: Colours.text[theme] }]}>
               <Text style={[styles.discountAmount, { color: Colours.gold[theme] }]}>{deal.discount}%</Text>
               {" off\nwhen you come "}
-              <Text style={[styles.discountTime, { color: Colours.primary }]}>{deal.maxPoints} times</Text>
+              <Text style={[styles.discountTime, { color: Colours.primary[theme] }]}>{deal.maxPoints} times</Text>
             </Text>
           </View>
         </View>

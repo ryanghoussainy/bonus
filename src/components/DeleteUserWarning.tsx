@@ -73,13 +73,13 @@ export default function DeleteUserWarning({
                 <Button
                     title="Cancel"
                     onPress={() => setDeleteUserWarning(false)}
-                    color={Colours.primary}
+                    color={Colours.primary[theme]}
                     disabled={loading}
                 />
                 <Button
                     title="Delete Account"
                     onPress={() => deleteUser(session, setLoading)}
-                    color={Colours.primary}
+                    color={Colours.primary[theme]}
                     disabled={loading || !enableDeleteUser}
                 />
             </View>

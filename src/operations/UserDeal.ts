@@ -6,10 +6,12 @@ export type UserDeal_t = {
     id: string;
     user_deal_id: string;
     name: string;
+    logoUrl: string;
     location: string;
     description: string;
     discountType: number;
     discount: number;
+    redeemedDays: string[];
     endDate: string | null;
     maxPoints: number | null;
     discountTimes: {
@@ -39,7 +41,7 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
         // Get user deals for this user
         const { data: userDeals, error } = await supabase
             .from('user_deals')
-            .select('id, user_id, deal_id, points')
+            .select('id, user_id, deal_id, points, redeemed_days')
             .eq('user_id', userID);
 
         if (error) {
@@ -66,7 +68,7 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
             // Get shop name and location 
             const { data: shop, error: shopError } = await supabase
                 .from('shop_profiles')
-                .select('name, location')
+                .select('name, location, logo_url')
                 .eq('id', shopUserID)
                 .single();
 
@@ -100,19 +102,22 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
                     id: deal.id,
                     user_deal_id: userDeal.id,
                     name: shop.name,
+                    logoUrl: shop.logo_url,
                     location: shop.location,
                     description: deal.description,
                     discountType: deal.type,
                     discount: deal.percentage,
+                    redeemedDays: userDeal.redeemed_days,
                     endDate: deal.end_date,
                     maxPoints: deal.max_pts,
-                    discountTimes,
+                    discountTimes: discountTimes
                 });
             }
         }
 
         if (deals) {
             setDeals(deals);
+            return deals;
         }
     } catch (error) {
         if (error instanceof Error) {

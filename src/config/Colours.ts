@@ -15,6 +15,18 @@ export default {
     light: "#daa520",
     dark: "#f3b731",
   },
-  primary: "#00b894",
+  outline: {
+    light: "#444",
+    dark: "#ccc",
+  },
+  primary: {
+    light: "#00875a",
+    dark: "#00b894",
+  },
+  lightprimary: {
+    light: "#00b894",
+    dark: "#90EE90",
+  },
   grey: "#888",
+  lightgrey: "#ccc",
 };

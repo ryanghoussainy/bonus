@@ -11,21 +11,26 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/bottom-tabs": "^6.6.0",
+    "@react-navigation/native": "^6.1.18",
     "@react-navigation/native-stack": "^6.10.0",
     "@rneui/themed": "^4.0.0-rc.8",
     "@supabase/supabase-js": "^2.44.2",
-    "expo": "~51.0.28",
+    "date-fns": "^3.6.0",
+    "expo": "^51.0.30",
+    "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
-    "react-native": "0.74.5",
+    "react-native": "^0.74.5",
     "react-native-qrcode-svg": "^6.3.1",
-    "react-native-svg": "^15.2.0",
-    "expo-linear-gradient": "~13.0.2"
+    "react-native-svg": "^15.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@types/react": "~18.2.45",
-    "typescript": "^5.3.3"
+    "typescript": "~5.3.3"
   },
-  "private": true
+  "private": true,
+  "overrides": {
+    "semver": "^7.5.3"
+  }
 }

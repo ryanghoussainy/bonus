@@ -215,3 +215,21 @@ export async function confirmPassword(session: Session, password: string) {
     }
   }
 };
+
+export async function checkValidUser(
+  userID: string,
+) {
+  // Get user
+  const { error } = await supabase
+      .from('profiles')
+      .select('id')
+      .eq('id', userID)
+      .single();
+
+  if (error) {
+      Alert.alert("Invalid user ID", error.message);
+      return false;
+  }
+
+  return true;
+}
