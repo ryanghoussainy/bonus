@@ -164,22 +164,37 @@ export default function HomeScreen({ session }: { session: Session }) {
   };
 
   const renderDeal = ({ item }: { item: UserDeal_t }) => {
-    const { availableNow, alreadyRedeemed, nextAvailable } = getAvailabilityStatus(item);
+    const expired = (item.endDate !== null) && isAfter(new Date(), parseISO(item.endDate));
 
-    let availabilityText = '';
+    let availableNow = false;
+    let alreadyRedeemed = false;
+    let nextAvailable: Date | null = null;
+    let availabilityText = 'Expired';
     let availabilityTextColor = Colours.outline[theme];
+    
+    if (!expired) {
+      const {
+        availableNow: _availableNow,
+        alreadyRedeemed: _alreadyRedeemed,
+        nextAvailable: _nextAvailable
+      } = getAvailabilityStatus(item);
 
-    if (availableNow) {
-      availabilityText = 'Available Now';
-      availabilityTextColor = Colours.primary[theme];
-    } else if (alreadyRedeemed) {
-      availabilityText = nextAvailable
-        ? `Already redeemed. Next available: ${formatDateTime(nextAvailable)}`
-        : 'Already redeemed. No upcoming availability';
-    } else {
-      availabilityText = nextAvailable
-        ? `Next available:\n${formatDateTime(nextAvailable)}`
-        : 'Not available';
+      availableNow = _availableNow;
+      alreadyRedeemed = _alreadyRedeemed;
+      nextAvailable = _nextAvailable;
+
+      if (availableNow) {
+        availabilityText = 'Available Now';
+        availabilityTextColor = Colours.primary[theme];
+      } else if (alreadyRedeemed) {
+        availabilityText = nextAvailable
+          ? `Already redeemed. Next available: ${formatDateTime(nextAvailable)}`
+          : 'Already redeemed. No upcoming availability';
+      } else {
+        availabilityText = nextAvailable
+          ? `Next available:\n${formatDateTime(nextAvailable)}`
+          : 'Not available';
+      }
     }
 
     return (
