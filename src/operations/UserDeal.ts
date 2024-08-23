@@ -13,6 +13,7 @@ export type UserDeal_t = {
     discount: number;
     redeemedDays: string[];
     endDate: string | null;
+    points: number | null;
     maxPoints: number | null;
     discountTimes: {
         mon_start: string;
@@ -118,6 +119,7 @@ export async function getUserDeals(
                     redeemedDays: userDeal.redeemed_days,
                     endDate: deal.end_date,
                     maxPoints: deal.max_pts,
+                    points: userDeal.points,
                     discountTimes: discountTimes,
                 });
             }

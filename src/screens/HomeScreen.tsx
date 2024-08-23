@@ -225,6 +225,12 @@ export default function HomeScreen({ session }: { session: Session }) {
           <Text style={[styles.dealAvailability, { color: availabilityTextColor }]}>
             {availabilityText}
           </Text>
+          { item.discountType === 0 &&
+            <Text style={[styles.points, { color: Colours.primary[theme] }]}>
+              {item.points} / {item.maxPoints}
+              {'\npoints'}
+            </Text>
+          }
         </View>
       </TouchableOpacity>
     );
@@ -337,5 +343,14 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '500',
     fontFamily: Fonts.condensed,
+  },
+  points: {
+    fontSize: 18,
+    fontFamily: Fonts.condensed,
+    position: "absolute",
+    bottom: 10,
+    left: -70,
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
