@@ -14,10 +14,16 @@ export default function Account({ session }: { session: Session }) {
     const { theme } = useTheme();
 
     const navigation = useNavigation();
+
+    // Account details
     const [firstName, setFirstName] = useState("");
     const [surname, setSurname] = useState("");
     const [mobileNumber, setMobileNumber] = useState("");
+
+    // Loading to get user
     const [loading, setLoading] = useState(true);
+
+    // Loading to save user
     const [loadingSave, setLoadingSave] = useState(false);
 
     // Fetch user from backend

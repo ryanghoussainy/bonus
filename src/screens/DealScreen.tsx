@@ -1,8 +1,7 @@
 import { useEffect, useLayoutEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native'
 import { useRoute, useNavigation, RouteProp } from "@react-navigation/native";
-import Colours from '../config/Colours'
-import { getDiscountDescription, getDiscountTimes } from '../components/DiscountDescription';
+import Colours from '../config/Colours';
 import { RootStackParamList } from '../navigation/StackNavigator';
 import Fonts from '../config/Fonts';
 import QRCode from 'react-native-qrcode-svg';
@@ -17,6 +16,7 @@ const DealScreen = ({ session }: { session: Session }) => {
     // Get theme
     const { theme } = useTheme();
 
+    // Logo
     const [url, setUrl] = useState<string>("");
     const [logoUrl, setLogoUrl] = useState<string>("");
 
@@ -33,6 +33,7 @@ const DealScreen = ({ session }: { session: Session }) => {
         getLogoPath(deal.id, setUrl);
     }, [session])
 
+    // Set the title of the screen to the deal name
     useLayoutEffect(() => {
         navigation.setOptions({ title: deal.name })
     }, [])
@@ -49,14 +50,6 @@ const DealScreen = ({ session }: { session: Session }) => {
                         resizeMode="cover"
                     />
                 }
-
-                {/* Discount */}
-                <Text>
-                    {getDiscountDescription(deal)}
-                </Text>
-
-                {/* Discount Times */}
-                <View>{getDiscountTimes(deal)}</View>
 
                 {/* Redeem */}
                 <QRCode

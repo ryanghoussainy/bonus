@@ -72,6 +72,7 @@ export default function HomeScreen({ session }: { session: Session }) {
     }, [session])
   );
 
+  // Check if deal is currently available
   const getAvailabilityStatus = (deal: UserDeal_t): AvailabilityStatus => {
     const now = new Date();
     const todayDate = format(now, 'yyyy-MM-dd', { locale: enGB });

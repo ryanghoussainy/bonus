@@ -10,13 +10,20 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { confirmPassword, deleteUser } from '../../operations/User';
 
 export default function General({ session }: { session: Session }) {
-    const navigation = useNavigation();
+    // Get theme
     const { theme, toggleTheme } = useTheme();
-    const [notificationsEnabled, setNotificationsEnabled] = useState(true);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [password, setPassword] = useState('');
 
+    const navigation = useNavigation();
+
+    // Notification settings
+    const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+
+    const [loading, setLoading] = useState(false);
+    
+    // Deleting account logic
+    const [modalVisible, setModalVisible] = useState(false);
+    const [password, setPassword] = useState('');
+    
     const toggleNotifications = () => {
         setNotificationsEnabled((previousState) => !previousState);
         // Add logic to toggle notifications here

@@ -8,16 +8,24 @@ import { supabase } from '../lib/supabase';
 import { createUser } from '../operations/User';
 
 export default function Auth() {
+  // Get theme
   const { theme, toggleTheme } = useTheme();
+
+  // User details
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [modalVisible, setModalVisible] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [surname, setSurname] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
-  const [passwordVisible, setPasswordVisible] = useState(false);
   const [preferredTheme, setPreferredTheme] = useState(theme === 'light' ? false : true);
+  
+  // User can press the 'eye' icon to toggle password visibility
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  // Modal for creating an account
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   async function signInWithEmail() {
     setLoading(true);
