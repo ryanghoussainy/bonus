@@ -46,7 +46,7 @@ export async function updateUser(
   session: Session,
   firstName: string,
   surname: string,
-  mobile_number: string,
+  mobileNumber: string,
   setLoading: (loading: boolean) => void
 ) {
   try {
@@ -58,7 +58,7 @@ export async function updateUser(
       updated_at: new Date(),
       first_name: firstName,
       surname: surname,
-      mobile_number: mobile_number,
+      mobile_number: mobileNumber,
     }
 
     const { error } = await supabase.from('profiles').upsert(updates)
@@ -136,7 +136,7 @@ export async function createUser(
 
   // A profile is automatically created for the user via a trigger in the backend
   // Get the user id
-  const user_id = session.user.id
+  const userID = session.user.id
   // Fetch all deals
   const { data: deals, error: dealsError } = await supabase.from('deals').select('id')
   if (dealsError) {
@@ -144,10 +144,10 @@ export async function createUser(
     setLoading(false)
     return
   }
-  // For each deal, create a new row in the user_deals table
+  // For each deal, create a new row in the user deals table
   for (const deal of deals) {
     const { error } = await supabase.from('user_deals').upsert({
-      user_id: user_id,
+      user_id: userID,
       deal_id: deal.id,
       points: 0,
       redeemed_days: [],
@@ -162,7 +162,7 @@ export async function createUser(
   // The profile is created by a trigger in the backend, so we need to wait for it to be created
   let profileCreated = false
   while (!profileCreated) {
-    const { data: profile, error: profileError } = await supabase.from('profiles').select('id').eq('id', user_id).single()
+    const { data: profile, error: profileError } = await supabase.from('profiles').select('id').eq('id', userID).single()
     if (profileError) {
       Alert.alert(profileError.message)
       setLoading(false)
@@ -175,7 +175,7 @@ export async function createUser(
 
   // Insert the user's details
   const { error: profileError } = await supabase.from('profiles').upsert({
-    id: user_id,
+    id: userID,
     updated_at: new Date(),
     first_name: firstName,
     surname: surname,

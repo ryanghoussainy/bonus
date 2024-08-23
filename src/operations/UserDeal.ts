@@ -1,10 +1,10 @@
-import { Session } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabase';
-import { Alert } from 'react-native';
+import { Session } from "@supabase/supabase-js";
+import { supabase } from "../lib/supabase";
+import { Alert } from "react-native";
 
 export type UserDeal_t = {
     id: string;
-    user_deal_id: string;
+    userDealID: string;
     name: string;
     logoUrl: string;
     location: string;
@@ -30,19 +30,22 @@ export type UserDeal_t = {
         sun_start: string;
         sun_end: string;
     };
-}
+};
 
-export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_t[]) => void) {
+export async function getUserDeals(
+    session: Session,
+    setDeals: (deals: UserDeal_t[]) => void,
+) {
     try {
-        // Get user_id
+        // Get user id
         const userID = session.user?.id;
-        if (!userID) throw new Error('No user on the session!');
-        
+        if (!userID) throw new Error("No user on the session!");
+
         // Get user deals for this user
         const { data: userDeals, error } = await supabase
-            .from('user_deals')
-            .select('id, user_id, deal_id, points, redeemed_days')
-            .eq('user_id', userID);
+            .from("user_deals")
+            .select("id, user_id, deal_id, points, redeemed_days")
+            .eq("user_id", userID);
 
         if (error) {
             Alert.alert(error.message);
@@ -53,23 +56,25 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
         const deals: UserDeal_t[] = [];
         for (const userDeal of userDeals) {
             const { data: deal, error } = await supabase
-                .from('deals')
-                .select('id, description, type, percentage, end_date, max_pts, deal_times_id, shop_user_id')
-                .eq('id', userDeal.deal_id)
+                .from("deals")
+                .select(
+                    "id, description, type, percentage, end_date, max_pts, deal_times_id, shop_user_id",
+                )
+                .eq("id", userDeal.deal_id)
                 .single();
 
             if (error) {
                 Alert.alert(error.message);
                 return;
             }
-            
+
             const shopUserID = deal?.shop_user_id;
 
-            // Get shop name and location 
+            // Get shop name and location
             const { data: shop, error: shopError } = await supabase
-                .from('shop_profiles')
-                .select('name, location, logo_url')
-                .eq('id', shopUserID)
+                .from("shop_profiles")
+                .select("name, location, logo_url")
+                .eq("id", shopUserID)
                 .single();
 
             if (shopError) {
@@ -80,17 +85,20 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
             // Get discount times
             const dealTimesID = deal?.deal_times_id;
 
-            const { data: discountTimes, error: discountTimesError } = await supabase
-                .from('deal_times')
-                .select('mon_start, mon_end, \
+            const { data: discountTimes, error: discountTimesError } =
+                await supabase
+                    .from("deal_times")
+                    .select(
+                        "mon_start, mon_end, \
                         tue_start, tue_end, \
                         wed_start, wed_end, \
                         thu_start, thu_end, \
                         fri_start, fri_end, \
                         sat_start, sat_end, \
-                        sun_start, sun_end')
-                .eq('id', dealTimesID)
-                .single();
+                        sun_start, sun_end",
+                    )
+                    .eq("id", dealTimesID)
+                    .single();
 
             if (discountTimesError) {
                 Alert.alert(discountTimesError.message);
@@ -100,7 +108,7 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
             if (deal && shop) {
                 deals.push({
                     id: deal.id,
-                    user_deal_id: userDeal.id,
+                    userDealID: userDeal.id,
                     name: shop.name,
                     logoUrl: shop.logo_url,
                     location: shop.location,
@@ -110,7 +118,7 @@ export async function getUserDeals(session: Session, setDeals: (deals: UserDeal_
                     redeemedDays: userDeal.redeemed_days,
                     endDate: deal.end_date,
                     maxPoints: deal.max_pts,
-                    discountTimes: discountTimes
+                    discountTimes: discountTimes,
                 });
             }
         }

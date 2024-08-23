@@ -3,7 +3,7 @@ import { Alert } from 'react-native';
 
 
 export async function getLogoPath(
-    deal_id: string,
+    dealID: string,
     setUrl: (logoUrl: string) => void,
 ) {
     try {
@@ -11,7 +11,7 @@ export async function getLogoPath(
         const { data, error } = await supabase
             .from('deals')
             .select('shop_user_id')
-            .eq('id', deal_id)
+            .eq('id', dealID)
             .single();
 
         if (error) {
@@ -20,15 +20,15 @@ export async function getLogoPath(
         }
 
         // Get logo url
-        const shop_user_id = data?.shop_user_id;
-        const { data: logo, error: logo_error } = await supabase
+        const shopUserID = data?.shop_user_id;
+        const { data: logo, error: logoError } = await supabase
             .from('shop_profiles')
             .select('logo_url')
-            .eq('id', shop_user_id)
+            .eq('id', shopUserID)
             .single();
 
-        if (logo_error) {
-            Alert.alert(logo_error.message);
+        if (logoError) {
+            Alert.alert(logoError.message);
             return;
         }
 

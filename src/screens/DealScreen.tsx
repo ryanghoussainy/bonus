@@ -53,7 +53,7 @@ const DealScreen = ({ session }: { session: Session }) => {
 
                 {/* Redeem */}
                 <QRCode
-                    value={deal.user_deal_id}
+                    value={deal.userDealID}
                     size={230}
                 />
 
