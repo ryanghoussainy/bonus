@@ -201,6 +201,7 @@ export default function HomeScreen({ session }: { session: Session }) {
       <TouchableOpacity
         style={[styles.dealCard, { backgroundColor: Colours.dealItem[theme] }]}
         onPress={() => navigation.navigate("Deal", { deal: item })}
+        disabled={expired}
       >
         <View style={styles.logoContainer}>
           {logos[item.id] ? (
