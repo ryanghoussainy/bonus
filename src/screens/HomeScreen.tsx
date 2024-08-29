@@ -44,7 +44,6 @@ export default function HomeScreen({ session }: { session: Session }) {
       // Fetch logos
       const logoUrls = await Promise.all(
         fetchedDeals?.map(async (deal) => {
-          // Ensure getLogo returns a string (URL)
           const logoUrl = await getLogo(deal.logoUrl);
           return { id: deal.id, url: logoUrl };
         }) || []
@@ -110,7 +109,7 @@ export default function HomeScreen({ session }: { session: Session }) {
         availableNow = true;
       } else if (isAfter(now, todayEnd) && !alreadyRedeemed) {
         // The deal expired earlier today
-        availableNow = false; // Deal is not available now
+        availableNow = false;
       }
     }
 
@@ -196,7 +195,6 @@ export default function HomeScreen({ session }: { session: Session }) {
       }
     }
 
-    // Apply a special style for deals that can be redeemed now (points === maxPoints)
     const redeemable = item.points === item.maxPoints;
     const redeemTextStyle = redeemable ? styles.redeemText : null;
 
@@ -316,11 +314,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -10,
     right: -10,
-    backgroundColor: 'red', // Background color for the "Redeem Now" label
+    backgroundColor: 'red',
     borderRadius: 20,
     paddingHorizontal: 10,
     paddingVertical: 5,
-    zIndex: 1, // Ensure it's on top
+    zIndex: 1,
   },
   redeemNowText: {
     fontSize: 12,
