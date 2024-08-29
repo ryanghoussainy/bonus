@@ -158,7 +158,6 @@ export default function HomeScreen({ session }: { session: Session }) {
     return { availableNow, alreadyRedeemed, nextAvailable };
   };
 
-
   const formatDateTime = (date: Date): string => {
     return format(date, 'eee dd MMM, h:mm a', { locale: enGB });
   };
@@ -197,12 +196,21 @@ export default function HomeScreen({ session }: { session: Session }) {
       }
     }
 
+    // Apply a special style for deals that can be redeemed now (points === maxPoints)
+    const redeemable = item.points === item.maxPoints;
+    const redeemTextStyle = redeemable ? styles.redeemText : null;
+
     return (
       <TouchableOpacity
         style={[styles.dealCard, { backgroundColor: Colours.dealItem[theme] }]}
         onPress={() => navigation.navigate("Deal", { deal: item })}
         disabled={expired}
       >
+        {redeemable && (
+          <View style={styles.redeemNowLabel}>
+            <Text style={[styles.redeemNowText, { color: Colours.text[theme] }]}>Redeem Now</Text>
+          </View>
+        )}
         <View style={styles.logoContainer}>
           {logos[item.id] ? (
             <Image source={{ uri: logos[item.id] }} style={styles.logo} />
@@ -226,8 +234,8 @@ export default function HomeScreen({ session }: { session: Session }) {
           <Text style={[styles.dealAvailability, { color: availabilityTextColor }]}>
             {availabilityText}
           </Text>
-          { item.discountType === 0 &&
-            <Text style={[styles.points, { color: Colours.primary[theme] }]}>
+          {item.discountType === 0 &&
+            <Text style={[styles.points, { color: Colours.primary[theme] }, redeemTextStyle]}>
               {item.points} / {item.maxPoints}
               {'\npoints'}
             </Text>
@@ -303,6 +311,23 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     marginHorizontal: 20,
     elevation: 3,
+  },
+  redeemNowLabel: {
+    position: 'absolute',
+    top: -10,
+    right: -10,
+    backgroundColor: 'red', // Background color for the "Redeem Now" label
+    borderRadius: 20,
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    zIndex: 1, // Ensure it's on top
+  },
+  redeemNowText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+  },
+  redeemText: {
+    fontWeight: 'bold',
   },
   logoContainer: {
     marginRight: 15,
