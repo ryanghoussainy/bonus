@@ -70,18 +70,6 @@ export default function DealScreen({ session }: { session: Session }) {
                 <Text style={[styles.shopLocation, { color: Colours.text[theme] }]}>{deal.location}</Text>
             </View>
 
-            <View style={styles.dealInfoContainer}>
-                <Text style={[styles.sectionTitle, { color: Colours.primary[theme] }]}>Description</Text>
-                <Text style={[styles.dealDescription, { color: Colours.text[theme] }]}>{deal.description}</Text>
-                <Text style={[styles.sectionTitle, { color: Colours.primary[theme] }]}>This deal is available on:</Text>
-                <Text style={[styles.dealTimes, { color: Colours.text[theme] }]}>{formatDiscountTimes(deal.discountTimes)}</Text>
-                {deal.discountType === 0 && 
-                    <Text style={[styles.pointsText, { color: Colours.primary[theme] }]}>
-                        Points Collected: {deal.points}/{deal.maxPoints}
-                    </Text>
-                }
-            </View>
-
             <View style={styles.qrContainer}>
                 <Text style={[styles.qrTitle, { color: Colours.text[theme] }]}>Your QR Code</Text>
                 <QRCode
@@ -108,6 +96,18 @@ export default function DealScreen({ session }: { session: Session }) {
                     </Text>
                 ))
             }
+
+            <View style={styles.dealInfoContainer}>
+                <Text style={[styles.sectionTitle, { color: Colours.primary[theme] }]}>Description</Text>
+                <Text style={[styles.dealDescription, { color: Colours.text[theme] }]}>{deal.description}</Text>
+                <Text style={[styles.sectionTitle, { color: Colours.primary[theme] }]}>This deal is available on:</Text>
+                <Text style={[styles.dealTimes, { color: Colours.text[theme] }]}>{formatDiscountTimes(deal.discountTimes)}</Text>
+                {deal.discountType === 0 && 
+                    <Text style={[styles.pointsText, { color: Colours.primary[theme] }]}>
+                        Points Collected: {deal.points}/{deal.maxPoints}
+                    </Text>
+                }
+            </View>
 
             {/* Modal for redeeming the deal */}
             <Modal
