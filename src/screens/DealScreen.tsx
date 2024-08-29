@@ -6,9 +6,10 @@ import Colours from '../config/Colours';
 import Fonts from '../config/Fonts';
 import { useTheme } from '../contexts/ThemeContext';
 import { Session } from '@supabase/supabase-js';
-import { RouteProp, useRoute } from '@react-navigation/native';
+import { RouteProp, useNavigation, useRoute } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/StackNavigator';
 import { getLogo } from '../operations/Logo';
+import { Ionicons } from '@expo/vector-icons';
 
 type DealScreenRouteProp = RouteProp<RootStackParamList, 'Deal'>;
 
@@ -20,6 +21,8 @@ export default function DealScreen({ session }: { session: Session }) {
     // Logo
     const [logoUrl, setLogoUrl] = useState<string | undefined>(undefined);
     const [modalVisible, setModalVisible] = useState<boolean>(false);
+
+    const navigation = useNavigation();
 
     useEffect(() => {
         getLogo(deal.logoUrl, setLogoUrl);
@@ -53,6 +56,14 @@ export default function DealScreen({ session }: { session: Session }) {
 
     return (
         <ScrollView style={[styles.container, { backgroundColor: Colours.background[theme] }]}>
+            {/* Back Button */}
+            <TouchableOpacity
+                style={[styles.backButton, { backgroundColor: Colours.background[theme] }]}
+                onPress={() => navigation.goBack()}
+            >
+                <Ionicons name="arrow-back-outline" size={28} color={Colours.text[theme]} />
+            </TouchableOpacity>
+
             <View style={styles.headerContainer}>
                 <Image source={{ uri: logoUrl }} style={styles.logo} />
                 <Text style={[styles.shopName, { color: Colours.text[theme] }]}>{deal.name}</Text>
@@ -133,6 +144,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 20,
         marginTop: 30,
+    },
+    backButton: {
+        position: 'absolute',
+        top: 60,
+        left: 10,
+        zIndex: 1,
+        borderRadius: 20,
+        width: 35,
+        height: 35,
+        alignItems: "center",
+        justifyContent: "center",
     },
     logo: {
         width: 100,
