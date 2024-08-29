@@ -11,7 +11,7 @@ export type UserDeal_t = {
     description: string;
     discountType: number;
     discount: number;
-    redeemedDays: string[];
+    redeemedDays: string[] | null;
     endDate: string | null;
     points: number | null;
     maxPoints: number | null;

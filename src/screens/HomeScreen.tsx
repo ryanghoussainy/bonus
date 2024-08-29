@@ -78,7 +78,7 @@ export default function HomeScreen({ session }: { session: Session }) {
     const todayDay = format(now, 'EEE', { locale: enGB }).toLowerCase(); // e.g., 'mon', 'tue'
 
     // Check if already redeemed today
-    const alreadyRedeemed = deal.redeemedDays.includes(todayDate);
+    const alreadyRedeemed = deal.redeemedDays?.includes(todayDate) || false;
 
     // Get today's start and end times
     const startTimeString = deal.discountTimes[`${todayDay}_start` as keyof typeof deal.discountTimes];
