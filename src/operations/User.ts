@@ -138,7 +138,7 @@ export async function createUser(
   // Get the user id
   const userID = session.user.id
   // Fetch all deals
-  const { data: deals, error: dealsError } = await supabase.from('deals').select('id')
+  const { data: deals, error: dealsError } = await supabase.from('deals').select('id, type')
   if (dealsError) {
     Alert.alert(dealsError.message)
     setLoading(false)
@@ -149,8 +149,8 @@ export async function createUser(
     const { error } = await supabase.from('user_deals').upsert({
       user_id: userID,
       deal_id: deal.id,
-      points: 0,
-      redeemed_days: [],
+      points: deal.type === 0 ? 0 : null,
+      redeemed_days: deal.type === 0 ? [] : null,
     })
     if (error) {
       Alert.alert(error.message)
