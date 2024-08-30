@@ -196,7 +196,7 @@ export default function HomeScreen({ session }: { session: Session }) {
     }
 
     // Check if deal is redeemable (points will be null if not a points-based deal)
-    const redeemable = item.points === item.maxPoints && item.points !== null;
+    const redeemable = item.points === item.maxPoints && item.discountType === 0;
     const redeemTextStyle = redeemable ? styles.redeemText : null;
 
     return (

@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     },
     notEligibleText: {
         textAlign: 'center',
-        marginTop: 20,
+        marginVertical: 20,
         fontSize: 16,
         fontFamily: Fonts.condensed,
     },
