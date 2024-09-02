@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Switch, TouchableOpacity, Alert, ScrollView, Modal, TextInput, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Switch, TouchableOpacity, Alert, ScrollView, Modal, TextInput, ActivityIndicator, TouchableWithoutFeedback } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import Colours from '../../config/Colours';
@@ -8,6 +8,7 @@ import { Session } from '@supabase/supabase-js';
 import { useNavigation } from '@react-navigation/native';
 import { useTheme } from '../../contexts/ThemeContext';
 import { confirmPassword, deleteUser } from '../../operations/User';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function General({ session }: { session: Session }) {
     // Get theme
@@ -107,38 +108,52 @@ export default function General({ session }: { session: Session }) {
                 animationType="fade"
                 transparent={true}
                 visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
+                onRequestClose={() => setModalVisible(false)}
             >
-                <View style={styles.modalOverlay}>
-                    <View style={[styles.modalView, { backgroundColor: Colours.background[theme] }]}>
-                        <Text style={[styles.modalTitle, { color: Colours.text[theme] }]}>Confirm Delete Account</Text>
-                        <Text style={[styles.modalText, { color: Colours.text[theme] }]}>Please enter your password to confirm.</Text>
-                        <TextInput
-                            style={[styles.inputField, { backgroundColor: Colours.dealItem[theme], color: Colours.text[theme], borderColor: Colours.dealItem[theme] }]}
-                            placeholder="Password"
-                            placeholderTextColor="#888"
-                            secureTextEntry
-                            value={password}
-                            onChangeText={setPassword}
-                        />
-                        <View style={styles.modalButtons}>
-                            <TouchableOpacity
-                                style={[styles.button, { backgroundColor: Colours.dealItem[theme] }]}
-                                onPress={() => setModalVisible(!modalVisible)}
-                            >
-                                <Text style={styles.buttonText}>Cancel</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={[styles.button, styles.buttonDelete]}
-                                onPress={confirmDeleteAccount}
-                            >
-                                <Text style={styles.buttonText}>Delete</Text>
-                            </TouchableOpacity>
-                        </View>
+                <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+                    <View style={styles.modalContainer}>
+                        <TouchableWithoutFeedback onPress={() => {}}>
+                            <View style={[styles.modalContent, { backgroundColor: Colours.background[theme] }]}>
+                                {/* Cancel button (X) in the top right corner */}
+                                <TouchableOpacity
+                                    style={styles.closeButton}
+                                    onPress={() => setModalVisible(false)}
+                                >
+                                    <FontAwesome name="times" size={24} color={Colours.text[theme]} />
+                                </TouchableOpacity>
+
+                                <Text style={[styles.modalText, { color: Colours.text[theme] }]}>Confirm Delete Account</Text>
+
+                                <Text style={[styles.modalText, { color: Colours.text[theme], fontWeight: "black", fontSize: 18 }]}>Please enter your password to confirm.</Text>
+
+                                <TextInput
+                                    style={[styles.inputField, { backgroundColor: Colours.dealItem[theme], color: Colours.text[theme], borderColor: Colours.dealItem[theme] }]}
+                                    placeholder="Password"
+                                    placeholderTextColor="#888"
+                                    secureTextEntry
+                                    value={password}
+                                    onChangeText={setPassword}
+                                />
+
+                                <View style={styles.modalButtons}>
+                                    <TouchableOpacity
+                                        style={[styles.modalButton, { backgroundColor: Colours.dealItem[theme] }]}
+                                        onPress={() => setModalVisible(false)}
+                                    >
+                                        <Text style={styles.modalButtonText}>Cancel</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        style={[styles.modalButton, { backgroundColor: "red" }]}
+                                        onPress={confirmDeleteAccount}
+                                    >
+                                        <Text style={styles.modalButtonText}>Delete</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                            </View>
+                        </TouchableWithoutFeedback>
                     </View>
-                </View>
+                </TouchableWithoutFeedback>
             </Modal>
 
             {/* Confirming Password Modal */}
@@ -146,12 +161,10 @@ export default function General({ session }: { session: Session }) {
                 animationType="fade"
                 transparent={true}
                 visible={loading}
-                onRequestClose={() => {
-                    setLoading(false);
-                }}
+                onRequestClose={() => setLoading(false)}
             >
-                <View style={styles.modalOverlay}>
-                    <View style={[styles.modalView, { backgroundColor: Colours.background[theme] }]}>
+                <View style={styles.modalContainer}>
+                    <View style={[styles.modalContent, { backgroundColor: Colours.background[theme] }]}>
                         <ActivityIndicator size="large" color={Colours.primary[theme]} />
                         <Text style={[styles.modalText, { color: Colours.text[theme], marginTop: 20 }]}>Confirming password...</Text>
                     </View>
@@ -213,37 +226,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontFamily: Fonts.condensed,
     },
-    modalOverlay: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalView: {
-        width: '80%',
-        borderRadius: 10,
-        padding: 20,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-    },
-    modalTitle: {
-        fontSize: 24,
-        fontFamily: Fonts.condensed,
-        marginBottom: 20,
-    },
-    modalText: {
-        fontSize: 16,
-        fontFamily: Fonts.condensed,
-        marginBottom: 20,
-        textAlign: 'center',
-    },
     inputField: {
         width: '100%',
         padding: 15,
@@ -251,11 +233,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 20,
         borderWidth: 1,
-    },
-    modalButtons: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: '100%',
     },
     button: {
         padding: 10,
@@ -270,5 +247,46 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: 'white',
         fontFamily: Fonts.condensed,
+    },
+    modalButton: {
+        flex: 1,
+        padding: 10,
+        margin: 5,
+        borderRadius: 5,
+        alignItems: 'center',
+    },
+    modalButtonText: {
+        fontSize: 18,
+        color: 'white',
+        fontFamily: Fonts.condensed,
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '100%',
+    },
+    modalContent: {
+        width: '80%',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        fontFamily: Fonts.condensed,
+        textAlign: 'center',
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
 });
