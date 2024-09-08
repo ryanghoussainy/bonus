@@ -46,7 +46,8 @@ export async function getUserDeals(
         const { data: userDeals, error } = await supabase
             .from("user_deals")
             .select("id, user_id, deal_id, points, redeemed_days")
-            .eq("user_id", userID);
+            .eq("user_id", userID)
+            .filter("disabled", "eq", false); // Only select enabled deals
 
         if (error) {
             Alert.alert(error.message);
